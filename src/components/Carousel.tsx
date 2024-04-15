@@ -28,9 +28,10 @@ export default function Carousel() {
   ];
   return (
     <>
+      {/* maybe make slidesperview 2 on certain screen sizes and auto on smaller  */}
       <Swiper
         effect={'coverflow'}
-        slidesPerView={2}
+        slidesPerView={'auto'}
         spaceBetween={40}
         loop={true}
         speed={10000}
@@ -47,15 +48,25 @@ export default function Carousel() {
           depth: 100,
           modifier: 2.5,
         }}
+        breakpoints={{
+          // when window width is >= 640px
+          640: {
+            slidesPerView: 2,
+          },
+          // when window width is < 640px
+          0: {
+            slidesPerView: 'auto',
+          },
+        }}
         modules={[EffectCoverflow, Mousewheel, FreeMode, Autoplay]}
-        className="mx-0 my-6 h-72"
+        className="h-64 mb-8"
       >
         {slides.map((url, index) => (
           <SwiperSlide
             key={index}
-            className="border-double border-4 border-light-blue-500"
+            className="border-[3px] border-soft-orange rounded-lg "
           >
-            <Image src={url} fill alt={`Slide ${index}`} />
+            <Image src={url} fill alt={`tweet ${index}`} />
           </SwiperSlide>
         ))}
       </Swiper>

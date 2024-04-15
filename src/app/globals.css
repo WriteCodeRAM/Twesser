@@ -2,48 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+div.swiper{ 
+    margin-left: 0;
+    margin-right: 0;
+}
 
 body{
-  background-color: #ebf0fa;
-}
-
-nav{
-  background-color: #8BC3E6;
-  padding: 16px;
-  font-size: larger;
-  font-weight: bold;
-
-}
-
-.button-container{
-  margin-top: 12px;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-
-}
-button{
-  border: solid 3px #F7833E;
-  border-radius: 4px;
-  padding: 8px;
-
-}
-
-@font-face {
-  font-family: 'MadimiOne';
-  src: url('/fonts/MadimiOne-Regular.ttf') format('truetype');
-}
-
-.slideshow-container{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: solid 1px black;
-}
-
-.app-container{
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f4f8;
 }
