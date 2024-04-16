@@ -1,7 +1,6 @@
 'use client';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { useState } from 'react';
 
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
@@ -16,7 +15,6 @@ import {
 } from 'swiper/modules';
 
 export default function Carousel() {
-  const [even, setEven] = useState(true);
   const slides = [
     '/slideshow_tweets/meatball_fruit_blur.png',
     '/slideshow_tweets/cereal_blur.png',
@@ -32,6 +30,7 @@ export default function Carousel() {
   const isEven = (index: number) => {
     return index % 2 == 0;
   };
+
   return (
     <>
       {/* maybe make slidesperview 2 on certain screen sizes and auto on smaller  */}
