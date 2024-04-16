@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useState } from 'react';
 
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
@@ -15,6 +16,7 @@ import {
 } from 'swiper/modules';
 
 export default function Carousel() {
+  const [even, setEven] = useState(true);
   const slides = [
     '/slideshow_tweets/meatball_fruit_blur.png',
     '/slideshow_tweets/cereal_blur.png',
@@ -26,6 +28,10 @@ export default function Carousel() {
     '/slideshow_tweets/dump_blur.png',
     '/slideshow_tweets/sex_gifs_blur.png',
   ];
+
+  const isEven = (index: number) => {
+    return index % 2 == 0;
+  };
   return (
     <>
       {/* maybe make slidesperview 2 on certain screen sizes and auto on smaller  */}
@@ -64,7 +70,11 @@ export default function Carousel() {
         {slides.map((url, index) => (
           <SwiperSlide
             key={index}
-            className="border-[3px] border-soft-orange rounded-lg "
+            className={
+              isEven(index)
+                ? 'border-[3px] border-soft-orange rounded-lg'
+                : 'border-[3px] border-vibrant-teal rounded-lg'
+            }
           >
             <Image src={url} fill alt={`tweet ${index}`} />
           </SwiperSlide>
