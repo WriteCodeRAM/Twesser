@@ -14,19 +14,19 @@ export default function Home() {
       {/* cta */}
       <div className="">
         <p className="text-center font-bold text-xl">
-          Think you know Twitter? Create a lobby and challenge your friends, or
-          join and jump into the action!
+          Who tweeted it? <br /> Create or join a lobby and guess the celebrity
+          tweeters!
         </p>
         <div className="flex justify-center mt-8 gap-8">
           <Button
-            hoverColor="soft-orange"
+            bgColor="bg-soft-orange"
             borderColor="vibrant-teal"
             text="Create Lobby"
           ></Button>
           <Button
-            hoverColor="vibrant-teal"
             borderColor="soft-orange"
             text="Join Lobby"
+            bgColor="bg-vibrant-teal"
           ></Button>
         </div>
       </div>

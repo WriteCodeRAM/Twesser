@@ -71,8 +71,8 @@ export default function Carousel() {
             key={index}
             className={
               isEven(index)
-                ? 'border-[3px] border-soft-orange rounded-lg'
-                : 'border-[3px] border-vibrant-teal rounded-lg'
+                ? 'border-4 border-soft-orange rounded-lg'
+                : 'border-4 border-vibrant-teal rounded-lg'
             }
           >
             <Image src={url} fill alt={`tweet ${index}`} />

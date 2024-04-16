@@ -12,7 +12,7 @@ const config: Config = {
         'light-blue': '#f0f4f8',
         'vibrant-teal': '#32deaa',
         'dark-gray': '#333333',
-        'soft-orange': '#ffab4c',
+        'soft-orange': '#ff6b6b',
         'muted-red': '#e57373',
       },
     },

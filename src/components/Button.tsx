@@ -3,10 +3,10 @@ import React from 'react';
 interface ButtonProps {
   text: string;
   borderColor: string;
-  hoverColor: string;
+  bgColor: string;
 }
 
-function Button({ text, borderColor, hoverColor }: ButtonProps) {
+function Button({ text, borderColor, bgColor }: ButtonProps) {
   const borderColorClass = () => {
     switch (borderColor) {
       case 'vibrant-teal':
@@ -18,20 +18,9 @@ function Button({ text, borderColor, hoverColor }: ButtonProps) {
     }
   };
 
-  const hoverColorClass = () => {
-    switch (hoverColor) {
-      case 'soft-orange':
-        return 'hover:bg-soft-orange';
-      case 'vibrant-teal':
-        return 'hover:bg-vibrant-teal';
-      default:
-        return '';
-    }
-  };
-
   return (
     <button
-      className={`border-2 ${borderColorClass()} rounded p-6 font-madimi ${hoverColorClass()}`}
+      className={`border-2 ${bgColor} ${borderColorClass()} rounded-lg p-4 font-madimi text-white transition-opacity duration-100 hover:opacity-65 hover:text-dark-gray`}
     >
       {text}
     </button>
