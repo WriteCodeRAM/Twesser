@@ -4,6 +4,7 @@ interface ButtonProps {
   text: string;
   borderColor: string;
   bgColor: string;
+  onClick: any;
 }
 
 function Button({ text, borderColor, bgColor }: ButtonProps) {
