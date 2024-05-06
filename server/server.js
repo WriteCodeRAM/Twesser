@@ -18,15 +18,19 @@ const rooms = {};
 io.on("connection", (socket) => {
   console.log(`User connected: ${socket.id}`);
 
-  socket.on("createRoom", () => {
+  socket.on("createRoom", ({ username }) => {
     const newRoomCode = generateUniqueRoomCode();
     // create new room w/ members arr
+    console.log(username);
+    console.log(newRoomCode);
     rooms[newRoomCode] = { members: [] };
     socket.join(newRoomCode);
+    rooms[newRoomCode].members.push({ id: socket.id, name: username });
     socket.emit("roomCreated", newRoomCode);
   });
 
   socket.on("join_room", ({ room, username }) => {
+    console.log(rooms[room]);
     if (rooms[room] && rooms[room].members.length < 6) {
       // obj has both the socket ID and username
       rooms[room].members.push({ id: socket.id, name: username });
@@ -37,8 +41,13 @@ io.on("connection", (socket) => {
         rooms[room].members.map((member) => member.name)
       );
     } else {
-      socket.emit("invalid room code");
+      socket.emit("invalid room code or lobby is full");
     }
+  });
+
+  socket.on("get_members", ({ room }) => {
+    console.log(rooms[room]);
+    // socket.emit()
   });
 
   socket.on("disconnect", () => {
