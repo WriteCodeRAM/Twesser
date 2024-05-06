@@ -14,14 +14,15 @@ export default function Home() {
       <Carousel />
       {/* cta */}
       <div className="">
-        <p className="text-center font-bold text-xl">
+        <p className="text-center font-bold text-xl text-dark-gray">
           Who tweeted it? <br /> Create or join a lobby and guess the celebrity
           tweeters!
         </p>
         <div className="flex justify-center mt-8 gap-8">
           <Link href={"/join"}>
             <Button
-              onClick={() => console.log("temporary")}
+              type="button"
+              onClick={""}
               borderColor="soft-orange"
               text="Start Playing"
               bgColor="bg-vibrant-teal"
