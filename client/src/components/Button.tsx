@@ -4,10 +4,17 @@ interface ButtonProps {
   text: string;
   borderColor: string;
   bgColor: string;
-  onClick: any;
+  onClick: () => void;
+  type: string;
 }
 
-function Button({ text, borderColor, bgColor }: ButtonProps) {
+function Button({
+  text,
+  borderColor,
+  bgColor,
+  type = "button",
+  onClick,
+}: ButtonProps) {
   const borderColorClass = () => {
     switch (borderColor) {
       case "vibrant-teal":
@@ -21,6 +28,8 @@ function Button({ text, borderColor, bgColor }: ButtonProps) {
 
   return (
     <button
+      onClick={onClick}
+      type={type}
       className={`border-2 ${bgColor} ${borderColorClass()} rounded-lg p-4 font-madimi text-white transition-opacity duration-100 hover:opacity-85 hover:text-dark-gray`}
     >
       {text}
