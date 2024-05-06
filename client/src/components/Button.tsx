@@ -4,7 +4,7 @@ interface ButtonProps {
   text: string;
   borderColor: string;
   bgColor: string;
-  onClick: () => void;
+  onClick?: any;
   type: string;
 }
 
