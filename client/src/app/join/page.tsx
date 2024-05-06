@@ -1,56 +1,37 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import * as io from "socket.io-client";
+import { useCreateRoom } from "../hooks/useCreateRoom";
+import { socket } from "../socket";
 import Button from "@/components/Button";
 import Lobby from "@/components/Lobby";
+import { useJoinRoom } from "../hooks/useJoinRoom";
 
-const socket = io.connect("http://localhost:8080");
+const RoomsForm = () => {
+  const [username, setUsername] = useState("");
+  const {
+    room,
+    createRoom,
+    error: createError,
+    inRoom,
+    setRoom,
+  } = useCreateRoom();
+  const { isInRoom, error: joinError, joinRoom } = useJoinRoom();
 
-const JoinRoom: React.FC = () => {
-  const [username, setUsername] = useState<string>("");
-  const [room, setRoom] = useState<string>("");
-  const [inRoom, setInRoom] = useState<boolean>(false);
-
-  useEffect(() => {
-    socket.on("roomCreated", (newRoomCode: string) => {
-      console.log(`Room created with code: ${newRoomCode}`);
-      setRoom(newRoomCode);
-      setInRoom(true);
-    });
-
-    socket.on("invalid room code", () => {
-      alert("Invalid room code. Please try again.");
-      setInRoom(false);
-    });
-
-    // clean up the event listener when the component unmounts
-    return () => {
-      socket.off("roomCreated");
-      socket.off("invalid room code");
-    };
-  }, []);
-
-  const handleCreateRoom = (e: any) => {
+  const handleCreateRoom = (e: React.MouseEvent<HTMLInputElement>) => {
     e.preventDefault();
-    if (username) {
-      socket.emit("createRoom");
-    } else {
-      alert("Please enter a username.");
-    }
+    createRoom(username);
   };
 
-  const handleJoinRoom = (e: React.MouseEvent) => {
+  const handleJoinRoom = (e: React.MouseEvent<HTMLInputElement>) => {
     e.preventDefault();
-    if (username && room) {
-      socket.emit("join_room", { room, username });
-      setInRoom(true);
-    }
+    joinRoom(username, room);
   };
 
   return (
     <div className="bg-black p-16 rounded-lg">
-      {!inRoom ? (
+      {!isInRoom && !inRoom ? (
         <form className="flex justify-center flex-col align-middle gap-4">
+          {createError || joinError ? <p>{createError || joinError}</p> : ""}
           <h1 className="text-center text-white font-roboto font-bold text-2xl">
             Username
           </h1>
@@ -78,6 +59,7 @@ const JoinRoom: React.FC = () => {
                 borderColor="soft-orange"
                 text="Join"
                 bgColor="bg-vibrant-teal"
+                type="button"
               />
             </div>
             <h1 className="text-soft-orange text-2xl font-bold text-center">
@@ -92,6 +74,7 @@ const JoinRoom: React.FC = () => {
                 bgColor="bg-soft-orange"
                 borderColor="vibrant-teal"
                 text="Create Room"
+                type="button"
               />
             </div>
           </div>
@@ -103,4 +86,4 @@ const JoinRoom: React.FC = () => {
   );
 };
 
-export default JoinRoom;
+export default RoomsForm;
