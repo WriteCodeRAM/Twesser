@@ -1,30 +1,30 @@
-'use client';
-import Image from 'next/image';
-import { Swiper, SwiperSlide } from 'swiper/react';
+"use client";
+import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
 
-import 'swiper/css';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/mousewheel';
-import 'swiper/css/free-mode';
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/mousewheel";
+import "swiper/css/free-mode";
 
 import {
   EffectCoverflow,
   FreeMode,
   Autoplay,
   Mousewheel,
-} from 'swiper/modules';
+} from "swiper/modules";
 
 export default function Carousel() {
   const slides = [
-    '/slideshow_tweets/meatball_fruit_blur.png',
-    '/slideshow_tweets/cereal_blur.png',
-    '/slideshow_tweets/cops_blur.png',
-    '/slideshow_tweets/paris_1940_blur.png',
-    '/slideshow_tweets/grandma_blur.png',
-    '/slideshow_tweets/be_smart_blur.png',
-    '/slideshow_tweets/sonic_blur.png',
-    '/slideshow_tweets/dump_blur.png',
-    '/slideshow_tweets/sex_gifs_blur.png',
+    "/slideshow_tweets/meatball_fruit_blur.png",
+    "/slideshow_tweets/cereal_blur.png",
+    "/slideshow_tweets/cops_blur.png",
+    "/slideshow_tweets/paris_1940_blur.png",
+    "/slideshow_tweets/grandma_blur.png",
+    "/slideshow_tweets/be_smart_blur.png",
+    "/slideshow_tweets/sonic_blur.png",
+    "/slideshow_tweets/dump_blur.png",
+    "/slideshow_tweets/sex_gifs_blur.png",
   ];
 
   const isEven = (index: number) => {
@@ -35,8 +35,8 @@ export default function Carousel() {
     <>
       {/* maybe make slidesperview 2 on certain screen sizes and auto on smaller  */}
       <Swiper
-        effect={'coverflow'}
-        slidesPerView={'auto'}
+        effect={"coverflow"}
+        slidesPerView={"auto"}
         spaceBetween={40}
         loop={true}
         speed={10000}
@@ -60,7 +60,7 @@ export default function Carousel() {
           },
           // when window width is < 640px
           0: {
-            slidesPerView: 'auto',
+            slidesPerView: "auto",
           },
         }}
         modules={[EffectCoverflow, Mousewheel, FreeMode, Autoplay]}
@@ -71,11 +71,20 @@ export default function Carousel() {
             key={index}
             className={
               isEven(index)
-                ? 'border-4 border-soft-orange rounded-lg'
-                : 'border-4 border-vibrant-teal rounded-lg'
+                ? "border-4 border-soft-orange rounded-lg"
+                : "border-4 border-vibrant-teal rounded-lg"
             }
           >
-            <Image src={url} fill alt={`tweet ${index}`} />
+            <Image
+              src={url}
+              fill
+              alt={`tweet ${index}`}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              priority={
+                url === "/slideshow_tweets/meatball_fruit_blur.png" ||
+                url === "/slideshow_tweets/cereal_blur.png"
+              }
+            />
           </SwiperSlide>
         ))}
       </Swiper>
