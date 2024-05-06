@@ -1,14 +1,9 @@
-'use client';
-import Carousel from '@/components/Carousel';
-import Button from '@/components/Button';
-import * as io from 'socket.io-client';
-
-const socket = io.connect('http://localhost:8080');
+"use client";
+import Carousel from "@/components/Carousel";
+import Button from "@/components/Button";
+import Link from "next/link";
 
 export default function Home() {
-  const sendMsg = () => {
-    // socket.emit();
-  };
   return (
     <div className="flex flex-col w-4/5 justify-center align-center">
       <h1 className="text-center text-dark-gray text-lg font-roboto">
@@ -24,16 +19,14 @@ export default function Home() {
           tweeters!
         </p>
         <div className="flex justify-center mt-8 gap-8">
-          <Button
-            bgColor="bg-soft-orange"
-            borderColor="vibrant-teal"
-            text="Create Lobby"
-          ></Button>
-          <Button
-            borderColor="soft-orange"
-            text="Join Lobby"
-            bgColor="bg-vibrant-teal"
-          ></Button>
+          <Link href={"/join"}>
+            <Button
+              onClick={() => console.log("temporary")}
+              borderColor="soft-orange"
+              text="Start Playing"
+              bgColor="bg-vibrant-teal"
+            ></Button>
+          </Link>
         </div>
       </div>
     </div>
