@@ -25,6 +25,7 @@ export default function RootLayout({
       <link
         href="https://fonts.googleapis.com/css2?family=Madimi+One&display=swap"
         rel="stylesheet"
+        precedence="default"
       />
 
       <body className={roboto_init.variable}>
