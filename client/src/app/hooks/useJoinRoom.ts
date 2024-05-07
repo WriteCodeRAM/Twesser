@@ -19,8 +19,8 @@ export const useJoinRoom = () => {
       }, 3000);
     };
 
-    const lobbyFull = () => {
-      setError("Lobby is full.");
+    const roomFull = () => {
+      setError("Room is full.");
       setInRoom(false);
       setTimeout(() => {
         setError("");
@@ -29,12 +29,12 @@ export const useJoinRoom = () => {
 
     socket.on("roomJoined", roomJoined);
     socket.on("invalid_room_code", invalidRoomCode);
-    socket.on("lobby_full", lobbyFull);
+    socket.on("room_full", roomFull);
 
     return () => {
       socket.off("roomJoined", roomJoined);
       socket.off("invalid_room_code", invalidRoomCode);
-      socket.off("lobby_full", lobbyFull);
+      socket.off("room_full", roomFull);
     };
   }, []);
 

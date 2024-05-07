@@ -1,4 +1,3 @@
-// hooks/useCreateRoom.js
 import { useState, useEffect } from "react";
 import { socket } from "../socket";
 
@@ -26,7 +25,10 @@ export const useCreateRoom = () => {
       socket.emit("createRoom", { username });
       setInRoom(true);
     } else {
-      setError("Please enter a username.");
+      setError("Enter a username first.");
+      setTimeout(() => {
+        setError("");
+      }, 3000);
     }
   };
 

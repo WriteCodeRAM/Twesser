@@ -29,11 +29,11 @@ const RoomsForm = () => {
   };
 
   return (
-    <div className="bg-black p-16 rounded-lg">
+    <div className="bg-black p-16 rounded-lg relative">
       {!isInRoom && !inRoom ? (
         <form className="flex justify-center flex-col align-middle gap-4">
           {createError || joinError ? (
-            <ErrorPage message={createError || joinError} />
+            <ErrorPage message={joinError || createError} />
           ) : (
             ""
           )}
@@ -67,7 +67,7 @@ const RoomsForm = () => {
                 type="button"
               />
             </div>
-            <h1 className="text-soft-orange text-2xl font-bold text-center">
+            <h1 className="text-soft-orange text-2xl font-bold text-center p-4">
               OR
             </h1>
             <div className="text-center">
