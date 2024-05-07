@@ -31,7 +31,7 @@ io.on("connection", (socket) => {
 
   socket.on("join_room", ({ room, username }) => {
     console.log(rooms[room]);
-    if (rooms[room] && rooms[room].members.length < 6) {
+    if (rooms[room] && rooms[room].members.length < 3) {
       // obj has both the socket ID and username
       rooms[room].members.push({ id: socket.id, name: username });
       socket.join(room);
@@ -40,8 +40,12 @@ io.on("connection", (socket) => {
         "updateRoom",
         rooms[room].members.map((member) => member.name)
       );
+      socket.emit("roomJoined");
+    } else if (!rooms[room]) {
+      socket.emit("invalid_room_code");
     } else {
-      socket.emit("invalid room code or lobby is full");
+      console.log("we full");
+      socket.emit("lobby_full");
     }
   });
 
