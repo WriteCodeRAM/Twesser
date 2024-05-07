@@ -28,7 +28,7 @@ export const useCreateRoom = () => {
       setError("Enter a username first.");
       setTimeout(() => {
         setError("");
-      }, 3000);
+      }, 1000);
     }
   };
 

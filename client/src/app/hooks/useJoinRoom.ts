@@ -16,7 +16,7 @@ export const useJoinRoom = () => {
       setInRoom(false);
       setTimeout(() => {
         setError("");
-      }, 3000);
+      }, 1000);
     };
 
     const roomFull = () => {
@@ -24,7 +24,7 @@ export const useJoinRoom = () => {
       setInRoom(false);
       setTimeout(() => {
         setError("");
-      }, 3000);
+      }, 1000);
     };
 
     socket.on("roomJoined", roomJoined);
@@ -43,6 +43,9 @@ export const useJoinRoom = () => {
       socket.emit("join_room", { username, room });
     } else {
       setError("Username and room code are required.");
+      setTimeout(() => {
+        setError("");
+      }, 1000);
     }
   };
 

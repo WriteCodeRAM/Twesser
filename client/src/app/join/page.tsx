@@ -42,6 +42,7 @@ const RoomsForm = () => {
           </h1>
           <input
             onChange={(e) => setUsername(e.target.value)}
+            required
             value={username}
             type="text"
             placeholder="Enter username"
