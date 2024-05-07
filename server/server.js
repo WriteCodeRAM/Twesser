@@ -45,7 +45,7 @@ io.on("connection", (socket) => {
       socket.emit("invalid_room_code");
     } else {
       console.log("we full");
-      socket.emit("lobby_full");
+      socket.emit("room_full");
     }
   });
 
