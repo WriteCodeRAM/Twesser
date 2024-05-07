@@ -1,10 +1,11 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useCreateRoom } from "../hooks/useCreateRoom";
 import { socket } from "../socket";
 import Button from "@/components/Button";
 import Lobby from "@/components/Lobby";
 import { useJoinRoom } from "../hooks/useJoinRoom";
+import ErrorPage from "@/components/Error";
 
 const RoomsForm = () => {
   const [username, setUsername] = useState("");
@@ -31,7 +32,11 @@ const RoomsForm = () => {
     <div className="bg-black p-16 rounded-lg">
       {!isInRoom && !inRoom ? (
         <form className="flex justify-center flex-col align-middle gap-4">
-          {createError || joinError ? <p>{createError || joinError}</p> : ""}
+          {createError || joinError ? (
+            <ErrorPage message={createError || joinError} />
+          ) : (
+            ""
+          )}
           <h1 className="text-center text-white font-roboto font-bold text-2xl">
             Username
           </h1>

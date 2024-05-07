@@ -1,4 +1,3 @@
-// hooks/useJoinRoom.js
 import { useState, useEffect } from "react";
 import { socket } from "../socket";
 
@@ -13,23 +12,35 @@ export const useJoinRoom = () => {
     };
 
     const invalidRoomCode = () => {
-      setError("Invalid room code. Please try again.");
+      setError("Invalid Room Code.");
       setInRoom(false);
+      setTimeout(() => {
+        setError("");
+      }, 3000);
+    };
+
+    const lobbyFull = () => {
+      setError("Lobby is full.");
+      setInRoom(false);
+      setTimeout(() => {
+        setError("");
+      }, 3000);
     };
 
     socket.on("roomJoined", roomJoined);
-    socket.on("invalid room code", invalidRoomCode);
+    socket.on("invalid_room_code", invalidRoomCode);
+    socket.on("lobby_full", lobbyFull);
 
     return () => {
       socket.off("roomJoined", roomJoined);
-      socket.off("invalid room code", invalidRoomCode);
+      socket.off("invalid_room_code", invalidRoomCode);
+      socket.off("lobby_full", lobbyFull);
     };
   }, []);
 
   const joinRoom = (username: string, room: string) => {
     if (username && room) {
       socket.emit("join_room", { username, room });
-      setInRoom(true);
     } else {
       setError("Username and room code are required.");
     }
