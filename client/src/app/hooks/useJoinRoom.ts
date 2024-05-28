@@ -27,12 +27,12 @@ export const useJoinRoom = () => {
       }, 1000);
     };
 
-    socket.on("roomJoined", roomJoined);
+    socket.on("room_joined", roomJoined);
     socket.on("invalid_room_code", invalidRoomCode);
     socket.on("room_full", roomFull);
 
     return () => {
-      socket.off("roomJoined", roomJoined);
+      socket.off("room_joined", roomJoined);
       socket.off("invalid_room_code", invalidRoomCode);
       socket.off("room_full", roomFull);
     };
