@@ -1,12 +1,12 @@
 const generateUniqueRoomCode = require("../utils/generateCode");
 
 module.exports = (io, socket, rooms) => {
-  socket.on("createRoom", ({ username }) => {
+  socket.on("create_room", ({ username }) => {
     const newRoomCode = generateUniqueRoomCode();
     rooms[newRoomCode] = { members: [{ id: socket.id, name: username }] };
-    console.log(rooms[newRoomCode]);
+    console.log(`room created with code: ${newRoomCode}`);
     socket.join(newRoomCode);
-    socket.emit("roomCreated", newRoomCode);
+    socket.emit("room_created", newRoomCode);
   });
 
   socket.on("join_room", ({ room, username }) => {
@@ -15,10 +15,11 @@ module.exports = (io, socket, rooms) => {
       socket.join(room);
       //  update all clients in the room with the new list of users
       io.to(room).emit(
-        "updateRoom",
-        rooms[room].members.map((member) => member.name)
+        "update_room",
+        rooms[room].members
+        // rooms[room].members.map((member) => member.name)
       );
-      socket.emit("roomJoined");
+      socket.emit("room_joined");
     } else if (!rooms[room]) {
       socket.emit("invalid_room_code");
     } else {

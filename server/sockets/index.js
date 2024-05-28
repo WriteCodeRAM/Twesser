@@ -1,5 +1,5 @@
 const { Server } = require("socket.io");
-const roomHandlers = require("./roomHandlers.js");
+const roomHandlers = require("./roomHandlers");
 const userHandlers = require("./userHandlers");
 
 const rooms = {};
@@ -16,10 +16,10 @@ module.exports = (httpServer) => {
     console.log(`User connected: ${socket.id}`);
 
     roomHandlers(io, socket, rooms);
-    // userHandlers(io, socket, rooms);
+    userHandlers(io, socket, rooms);
 
     socket.on("disconnect", () => {
-      console.log("User disconnected");
+      console.log(`User ${socket.id} disconnected `);
       // handle disconnect
       // find the room and remove the member
       Object.keys(rooms).forEach((room) => {
