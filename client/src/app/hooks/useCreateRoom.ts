@@ -7,22 +7,25 @@ export const useCreateRoom = () => {
   const [inRoom, setInRoom] = useState(false);
 
   useEffect(() => {
-    socket.on("roomCreated", (newRoomCode) => {
+    socket.on("room_created", (newRoomCode) => {
+      // setting room puts you in the lobby
+      console.log('room created' + room)
       setRoom(newRoomCode);
       setError("");
     });
 
     return () => {
-      socket.off("roomCreated");
+      socket.off("room_created");
     };
   }, []);
 
   const createRoom = (username: string) => {
-    console.log(username);
+    // console.log(username);
     if (username.trim()) {
       const newName = username.trim();
-      console.log(newName);
-      socket.emit("createRoom", { username });
+      // newName doesnt work for some reason ?
+      // console.log(newName);
+      socket.emit("create_room", { username });
       setInRoom(true);
     } else {
       setError("Enter a username first.");
