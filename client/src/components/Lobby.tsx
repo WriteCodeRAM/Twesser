@@ -1,20 +1,26 @@
-import { SocketOptions } from "socket.io-client";
+import LobbyMembers from "./LobbyMembers";
+import LobbyScreen from "./LobbyScreen";
+import { useGetMembers } from "@/app/hooks/useGetMembers";
 import { useEffect } from "react";
 
 interface LobbyProps {
-  socket: any;
-  username: string;
   room: string;
 }
 
-function Lobby({ socket, username, room }: LobbyProps) {
-  socket.emit("get_members", { room });
+const Lobby = ({ room }: LobbyProps) => {
+  // const [members, setMembers] = useState([]);
+  const { members } = useGetMembers(room);
 
   useEffect(() => {
-    socket.on("get_members", (members: any) => {
-      console.log("test");
-    });
-  }, []);
-  return <div className="bg-white">Lobby</div>;
-}
+    console.log("component mounted");
+    console.log(room);
+  }, [members]);
+  return (
+    <div className="flex flex-col align-middle justify-center">
+      <LobbyScreen />
+      <LobbyMembers members={members}></LobbyMembers>
+    </div>
+  );
+};
+
 export default Lobby;
