@@ -1,10 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useCreateRoom } from "../hooks/useCreateRoom";
-import { socket } from "../socket";
+import { useJoinRoom } from "../hooks/useJoinRoom";
 import Button from "@/components/Button";
 import Lobby from "@/components/Lobby";
-import { useJoinRoom } from "../hooks/useJoinRoom";
 import ErrorPage from "@/components/Error";
 
 const RoomsForm = () => {
@@ -18,25 +17,24 @@ const RoomsForm = () => {
   } = useCreateRoom();
   const { isInRoom, error: joinError, joinRoom } = useJoinRoom();
 
-  const handleCreateRoom = (e: React.MouseEvent<HTMLInputElement>) => {
+  const handleCreateRoom = (e) => {
     e.preventDefault();
     createRoom(username);
   };
 
-  const handleJoinRoom = (e: React.MouseEvent<HTMLInputElement>) => {
+  const handleJoinRoom = (e) => {
     e.preventDefault();
     joinRoom(username, room);
   };
 
-  return (
-    <div className="bg-black p-16 rounded-lg relative">
-      {!isInRoom && !inRoom ? (
+  // Conditional rendering based on whether the user is in the room
+  if (!isInRoom && !inRoom) {
+    return (
+      <div className="bg-black p-16 rounded-lg relative">
         <form className="flex justify-center flex-col align-middle gap-4">
           {createError || joinError ? (
             <ErrorPage message={joinError || createError} />
-          ) : (
-            ""
-          )}
+          ) : null}
           <h1 className="text-center text-white font-roboto font-bold text-2xl">
             Username
           </h1>
@@ -85,11 +83,12 @@ const RoomsForm = () => {
             </div>
           </div>
         </form>
-      ) : (
-        <Lobby socket={socket} username={username} room={room} />
-      )}
-    </div>
-  );
+      </div>
+    );
+  } else {
+    // Render the Lobby component when the user is in the room
+    return <Lobby room={room} />;
+  }
 };
 
 export default RoomsForm;
