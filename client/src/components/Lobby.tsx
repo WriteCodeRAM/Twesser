@@ -17,6 +17,7 @@ const Lobby = ({ room }: LobbyProps) => {
   }, [members]);
   return (
     <div className="flex flex-col align-middle justify-center">
+      <p className="text-center">Code: {room}</p>
       <LobbyScreen />
       <LobbyMembers members={members}></LobbyMembers>
     </div>
