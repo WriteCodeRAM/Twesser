@@ -3,7 +3,9 @@ const generateUniqueRoomCode = require("../utils/generateCode");
 module.exports = (io, socket, rooms) => {
   socket.on("create_room", ({ username }) => {
     const newRoomCode = generateUniqueRoomCode();
-    rooms[newRoomCode] = { members: [{ id: socket.id, name: username }] };
+    rooms[newRoomCode] = {
+      members: [{ id: socket.id, name: username, host: true }],
+    };
     console.log(`room created with code: ${newRoomCode}`);
     socket.join(newRoomCode);
     socket.emit("room_created", newRoomCode);
