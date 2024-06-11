@@ -8,8 +8,8 @@ export default function Home() {
     <div className="flex flex-col w-4/5 justify-center align-center">
       <h1 className="text-center text-dark-gray text-lg font-roboto">
         Twesser allows you and 5 other friends to test your trivia knowledge in
-        a multiplayer style to see who can guess who tweeted the tweet in the
-        image out first.
+        a multiplayer game <br /> to see who can guess the celebrity tweeter the
+        fastest.
       </h1>
       <Carousel />
       {/* cta */}
