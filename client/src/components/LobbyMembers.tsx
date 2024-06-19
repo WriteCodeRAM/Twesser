@@ -1,24 +1,47 @@
-interface LobbyMemberProps {
+import { socket } from "@/app/socket";
+import { useEffect } from "react";
+
+interface LobbyMemberFields {
   id: string;
   name: string;
 }
 
 interface LobbyMembersProps {
-  members: LobbyMemberProps[];
+  members: LobbyMemberFields[];
+  room: string;
 }
+//maybe emit event when host hits start game
+// event makes lobby sfx  and screen says game starting in 5,4,3...
+const LobbyMembers = ({ members, room }) => {
+  useEffect(() => {
+    console.log(`Room in LobbyMembers at effect start: ${room}`);
+  }, [room]);
 
-const LobbyMembers = ({ members }: LobbyMembersProps) => {
+  const handleStartGame = () => {
+    console.log(`Emitting start_game for room: ${room}`);
+    socket.emit("start_game", { room });
+  };
+
   return (
-    <div className="flex flex-wrap gap-4 w-3/4 justify-center">
+    <div className="flex flex-wrap gap-4 justify-center mt-4">
       {members.map((member, index) => (
         <div
           className="text-white font-madimi text-center bg-black p-4 rounded w-48"
           key={index}
         >
           {member.name}
+          {member.host ? (
+            <button
+              onClick={handleStartGame}
+              className="ml-2 bg-white text-black rounded"
+            >
+              Start Game
+            </button>
+          ) : null}
         </div>
       ))}
     </div>
   );
 };
+
 export default LobbyMembers;
