@@ -9,7 +9,8 @@ export const useCreateRoom = () => {
   useEffect(() => {
     socket.on("room_created", (newRoomCode) => {
       // setting room puts you in the lobby
-      console.log('room created' + room)
+      console.log(`room created with code: ${newRoomCode}`);
+      // makes it so the Lobby component is displayed
       setRoom(newRoomCode);
       setError("");
     });
