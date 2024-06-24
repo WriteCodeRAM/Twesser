@@ -1,5 +1,7 @@
 module.exports = (io, socket, rooms) => {
   socket.on("start_game", ({ room }) => {
+    console.log(socket.id);
+    console.log(rooms[room]);
     console.log(`Attempting to start game in room: ${room}`);
     if (rooms[room] && rooms[room].members.length > 1) {
       // Your logic here
@@ -11,6 +13,7 @@ module.exports = (io, socket, rooms) => {
       // once countdown is finished show first blurred tweet
     } else {
       console.log(`Game requires at least 2 people to play.`);
+      socket.emit("player_count_warning");
     }
   });
 };
