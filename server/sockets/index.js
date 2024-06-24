@@ -1,6 +1,7 @@
 const { Server } = require("socket.io");
 const roomHandlers = require("./roomHandlers");
 const userHandlers = require("./userHandlers");
+const gameHandlers = require("./gameHandlers");
 
 const rooms = {};
 
@@ -17,6 +18,7 @@ module.exports = (httpServer) => {
 
     roomHandlers(io, socket, rooms);
     userHandlers(io, socket, rooms);
+    gameHandlers(io, socket, rooms);
 
     socket.on("disconnect", () => {
       console.log(`User ${socket.id} disconnected `);
