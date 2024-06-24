@@ -2,15 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-div.swiper{ 
-    margin-left: 0;
-    margin-right: 0;
+div.swiper {
+  margin-left: 0;
+  margin-right: 0;
 }
 
-body{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #c7d2de;
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #c7d2de;
 }
