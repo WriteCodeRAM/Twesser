@@ -10,7 +10,9 @@ interface LobbyProps {
 
 const Lobby = ({ room }: LobbyProps) => {
   const { members } = useGetMembers(room);
+  const [gameStarted, setGameStarted] = useState(false);
   const [questions, setQuestions] = useState([]);
+  const [index, setIndex] = useState(0);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -38,6 +40,25 @@ const Lobby = ({ room }: LobbyProps) => {
       }, 2000);
     });
 
+    socket.on("host_must_start_game", () => {
+      setError("Only the host of the room is allowed to start the game.");
+      setTimeout(() => {
+        setError("");
+      }, 2000);
+    });
+
+    socket.on("game_started", () => {
+      const countdown = new Audio("/audio/countdown.mp3");
+      const roundStart = new Audio("/audio/start_round.ogg");
+      setError("Game starting...");
+      countdown.play();
+      setTimeout(() => {
+        countdown.pause();
+        roundStart.play();
+        setGameStarted(true);
+      }, 5000);
+    });
+
     fetchQuestions();
   }, [room]);
 
@@ -49,7 +70,9 @@ const Lobby = ({ room }: LobbyProps) => {
     <div className="flex flex-col align-middle justify-center">
       <p className="text-center">Code: {room}</p>
       <LobbyScreen questions={questions} error={error} />
-      <LobbyMembers members={members} room={room} />
+      {!gameStarted && (
+        <LobbyMembers members={members} room={room} img={"lol"} />
+      )}
     </div>
   );
 };
