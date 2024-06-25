@@ -68,7 +68,14 @@ const Lobby = ({ room }: LobbyProps) => {
 
   return (
     <div className="flex flex-col align-middle justify-center">
-      <p className="text-center">Code: {room}</p>
+      <div
+        className="text-center hover:cursor-pointer hover:text-white"
+        onClick={() => {
+          navigator.clipboard.writeText(room);
+        }}
+      >
+        <p>Code: {room}</p>
+      </div>
       <LobbyScreen questions={questions} error={error} />
       {!gameStarted && (
         <LobbyMembers members={members} room={room} img={"lol"} />
