@@ -11,7 +11,7 @@ module.exports = (io, socket, rooms) => {
       // Your logic here
       console.log("game started");
       // emit listener to client
-      io.emit("game_started");
+      io.to(room).emit("game_started");
       // sound effect is possible
       // show on lobby screen a countdown
       // during the countdown I want to fetch the tweets from db
