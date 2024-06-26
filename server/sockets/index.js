@@ -29,10 +29,7 @@ module.exports = (httpServer) => {
         if (rooms[room].members.length === 0) {
           delete rooms[room];
         } else {
-          io.to(room).emit(
-            "updateRoom",
-            rooms[room].members.map((member) => member.name)
-          );
+          io.to(room).emit("update_room", rooms[room].members);
         }
       });
     });
