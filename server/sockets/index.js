@@ -16,7 +16,6 @@ module.exports = (httpServer) => {
     console.log(`User connected: ${socket.id}`);
 
     roomHandlers(io, socket, rooms);
-    userHandlers(io, socket, rooms);
     gameHandlers(io, socket, rooms);
 
     socket.on("disconnect", () => {
