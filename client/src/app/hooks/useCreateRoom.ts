@@ -4,7 +4,6 @@ import { socket } from "../socket";
 export const useCreateRoom = () => {
   const [room, setRoom] = useState("");
   const [error, setError] = useState("");
-  const [inRoom, setInRoom] = useState(false);
 
   useEffect(() => {
     socket.on("room_created", (newRoomCode) => {
@@ -27,7 +26,6 @@ export const useCreateRoom = () => {
       // newName doesnt work for some reason ?
       // console.log(newName);
       socket.emit("create_room", { username });
-      setInRoom(true);
     } else {
       setError("Enter a username first.");
       setTimeout(() => {
@@ -36,5 +34,5 @@ export const useCreateRoom = () => {
     }
   };
 
-  return { room, createRoom, error, inRoom, setRoom };
+  return { room, createRoom, error, setRoom };
 };
