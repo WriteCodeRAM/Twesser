@@ -4,6 +4,7 @@ import { socket } from "../socket";
 interface Member {
   id: string;
   name: string;
+  host: boolean;
 }
 
 export const useGetMembers = (code: string) => {
@@ -12,17 +13,14 @@ export const useGetMembers = (code: string) => {
   useEffect(() => {
     console.log(`Fetching members for room: ${code}`);
     if (code) {
-      // Ensure code is not empty
-      socket.emit("get_members", code);
-
-      socket.on("members_list", (newMembers) => {
-        setMembers(newMembers);
-      });
-      socket.on("update_room", (newMembers) => {
+      // runs when user joins room, emits listener to update lobby member list to client
+      socket.on("update_room", (newMembers: Member[]) => {
+        console.log("running update room");
+        console.log(newMembers);
         setMembers(newMembers);
       });
       return () => {
-        socket.off("members_list");
+        socket.off("update_room");
       };
     }
   }, [code]);
