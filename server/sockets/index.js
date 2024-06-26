@@ -1,6 +1,5 @@
 const { Server } = require("socket.io");
 const roomHandlers = require("./roomHandlers");
-const userHandlers = require("./userHandlers");
 const gameHandlers = require("./gameHandlers");
 
 const rooms = {};
