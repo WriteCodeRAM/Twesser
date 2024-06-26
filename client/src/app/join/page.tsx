@@ -8,7 +8,13 @@ import ErrorPage from "@/components/Error";
 
 const RoomsForm = () => {
   const [username, setUsername] = useState("");
-  const { room, createRoom, error: createError, setRoom } = useCreateRoom();
+  const {
+    room,
+    createRoom,
+    error: createError,
+    inRoom,
+    setRoom,
+  } = useCreateRoom();
   const { isInRoom, error: joinError, joinRoom } = useJoinRoom();
 
   const handleCreateRoom = (e) => {
@@ -22,7 +28,7 @@ const RoomsForm = () => {
   };
 
   // Conditional rendering based on whether the user is in the room
-  if (!isInRoom && !room) {
+  if (!isInRoom && !inRoom) {
     return (
       <div className="bg-black p-16 rounded-lg relative">
         <form className="flex justify-center flex-col align-middle gap-4">

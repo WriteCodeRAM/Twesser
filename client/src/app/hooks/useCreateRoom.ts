@@ -4,6 +4,7 @@ import { socket } from "../socket";
 export const useCreateRoom = () => {
   const [room, setRoom] = useState("");
   const [error, setError] = useState("");
+  const [inRoom, setInRoom] = useState(false);
 
   useEffect(() => {
     socket.on("room_created", (newRoomCode) => {
@@ -11,6 +12,7 @@ export const useCreateRoom = () => {
       console.log(`room created with code: ${newRoomCode}`);
       // makes it so the Lobby component is displayed
       setRoom(newRoomCode);
+      setInRoom(true);
       setError("");
     });
 
@@ -34,5 +36,5 @@ export const useCreateRoom = () => {
     }
   };
 
-  return { room, createRoom, error, setRoom };
+  return { room, createRoom, inRoom, error, setRoom };
 };
