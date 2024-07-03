@@ -1,66 +1,20 @@
 import LobbyMembers from "./LobbyMembers";
 import LobbyScreen from "./LobbyScreen";
 import { useGetMembers } from "@/app/hooks/useGetMembers";
-import { useEffect, useState } from "react";
-import { socket } from "@/app/socket";
+import { useGetQuestions } from "@/app/hooks/useGetQuestions";
+import { useSoundEffects } from "@/app/hooks/useSoundEffects";
+import { useGameRules } from "@/app/hooks/useGameRules";
 
 interface LobbyProps {
   room: string;
 }
 
 const Lobby = ({ room }: LobbyProps) => {
+  // members attached to event listeners, updates when user joins / leaves
   const { members } = useGetMembers(room);
-  const [gameStarted, setGameStarted] = useState(false);
-  const [questions, setQuestions] = useState([]);
-  const [index, setIndex] = useState(0);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    console.log("Lobby component mounted");
-    console.log("Room code in Lobby:", room);
-
-    const fetchQuestions = async () => {
-      try {
-        const response = await fetch("/api/questions");
-        if (!response.ok) {
-          throw new Error("Failed to fetch questions");
-        }
-        const data = await response.json();
-        console.log(data);
-        setQuestions(data.questions);
-      } catch (error) {
-        console.error("Error fetching questions:", error);
-      }
-    };
-
-    socket.on("player_count_warning", () => {
-      setError("Game requires at least 2 players to start.");
-      setTimeout(() => {
-        setError("");
-      }, 2000);
-    });
-
-    socket.on("host_must_start_game", () => {
-      setError("Only the host of the room is allowed to start the game.");
-      setTimeout(() => {
-        setError("");
-      }, 2000);
-    });
-
-    socket.on("game_started", () => {
-      const countdown = new Audio("/audio/countdown.mp3");
-      const roundStart = new Audio("/audio/start_round.ogg");
-      setError("Game starting...");
-      countdown.play();
-      setTimeout(() => {
-        countdown.pause();
-        roundStart.play();
-        setGameStarted(true);
-      }, 5000);
-    });
-
-    fetchQuestions();
-  }, [room]);
+  const { questions } = useGetQuestions();
+  const { gameStarted } = useSoundEffects();
+  const { error } = useGameRules();
 
   if (!room) {
     return <p>Loading room details...</p>;
@@ -76,10 +30,8 @@ const Lobby = ({ room }: LobbyProps) => {
       >
         <p>Code: {room}</p>
       </div>
-      <LobbyScreen questions={questions} error={error} />
-      {!gameStarted && (
-        <LobbyMembers members={members} room={room} img={"lol"} />
-      )}
+      <LobbyScreen error={error} img={null} />
+      {!gameStarted && <LobbyMembers members={members} room={room} />}
     </div>
   );
 };
