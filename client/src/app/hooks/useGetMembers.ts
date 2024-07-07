@@ -15,8 +15,8 @@ export const useGetMembers = (code: string) => {
     if (code) {
       // runs when user joins room, emits listener to update lobby member list to client
       socket.on("update_room", (newMembers: Member[]) => {
-        console.log("running update room");
-        console.log(newMembers);
+        const joined = new Audio("/audio/joined_room.wav");
+        joined.play();
         setMembers(newMembers);
       });
       return () => {
