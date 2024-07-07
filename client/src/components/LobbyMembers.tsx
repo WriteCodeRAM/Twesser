@@ -1,5 +1,5 @@
 import { socket } from "@/app/socket";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface LobbyMemberFields {
   id: string;
@@ -13,12 +13,13 @@ interface LobbyMembersProps {
 //maybe emit event when host hits start game
 // event makes lobby sfx  and screen says game starting in 5,4,3...
 const LobbyMembers = ({ members, room }) => {
+  const [gameStarted, setGameStarted] = useState(false);
+
   useEffect(() => {
     console.log(`Room in LobbyMembers at effect start: ${room}`);
   }, [room]);
 
   const handleStartGame = () => {
-    console.log(`Emitting start_game for room: ${room}`);
     socket.emit("start_game", { room });
   };
 
@@ -30,7 +31,7 @@ const LobbyMembers = ({ members, room }) => {
           key={index}
         >
           {member.name}
-          {member.host ? (
+          {member.host && !gameStarted ? (
             <button
               onClick={handleStartGame}
               className="ml-2 bg-white text-black rounded"
