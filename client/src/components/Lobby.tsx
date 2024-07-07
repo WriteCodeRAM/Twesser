@@ -12,7 +12,7 @@ interface LobbyProps {
 const Lobby = ({ room }: LobbyProps) => {
   // members attached to event listeners, updates when user joins / leaves
   const { members } = useGetMembers(room);
-  const { questions } = useGetQuestions();
+  const { questions, index } = useGetQuestions();
   const { gameStarted } = useSoundEffects();
   const { error } = useGameRules();
 
@@ -30,7 +30,7 @@ const Lobby = ({ room }: LobbyProps) => {
       >
         <p>Code: {room}</p>
       </div>
-      <LobbyScreen error={error} img={null} />
+      <LobbyScreen error={error} img={questions[index]?.blurredURL || null} />
       {!gameStarted && <LobbyMembers members={members} room={room} />}
     </div>
   );
