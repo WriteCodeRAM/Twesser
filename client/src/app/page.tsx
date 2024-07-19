@@ -5,8 +5,8 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col w-4/5 justify-center align-center">
-      <h1 className="text-center text-dark-gray text-lg font-roboto">
+    <div className="align-center flex w-4/5 flex-col justify-center">
+      <h1 className="text-center font-roboto text-lg text-dark-gray">
         Twesser allows you and 5 other friends to test your trivia knowledge in
         a multiplayer game <br /> to see who can guess the celebrity tweeter the
         fastest.
@@ -14,16 +14,16 @@ export default function Home() {
       <Carousel />
       {/* cta */}
       <div className="">
-        <p className="text-center font-bold text-xl text-dark-gray">
+        <p className="text-center text-xl font-bold text-dark-gray">
           Who tweeted it? <br /> Create or join a lobby and guess the celebrity
           tweeters!
         </p>
-        <div className="flex justify-center mt-8 gap-8">
+        <div className="mt-8 flex justify-center gap-8">
           <Link href={"/join"}>
             <Button
               type="button"
               onClick={""}
-              borderColor="soft-orange"
+              borderColor="border-soft-orange"
               text="Start Playing"
               bgColor="bg-vibrant-teal"
             ></Button>
