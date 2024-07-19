@@ -10,10 +10,10 @@ interface LobbyProps {
 }
 
 const Lobby = ({ room }: LobbyProps) => {
-  // members attached to event listeners, updates when user joins / leaves
   const { members } = useGetMembers(room);
   const { questions, index } = useGetQuestions();
-  const { gameStarted } = useSoundEffects();
+  const { gameStarted, roundStarted, roundOver, intermission } =
+    useSoundEffects(room);
   const { error } = useGameRules();
 
   if (!room) {
@@ -21,7 +21,7 @@ const Lobby = ({ room }: LobbyProps) => {
   }
 
   return (
-    <div className="flex flex-col align-middle justify-center">
+    <div className="flex flex-col justify-center align-middle">
       <div
         className="text-center hover:cursor-pointer hover:text-white"
         onClick={() => {
@@ -30,7 +30,14 @@ const Lobby = ({ room }: LobbyProps) => {
       >
         <p>Code: {room}</p>
       </div>
-      <LobbyScreen error={error} img={questions[index]?.blurredURL || null} />
+      <LobbyScreen
+        error={error}
+        data={questions[index] || null}
+        gameStarted={gameStarted}
+        roundStarted={roundStarted}
+        roundOver={roundOver}
+        intermission={intermission}
+      />
       {!gameStarted && <LobbyMembers members={members} room={room} />}
     </div>
   );
