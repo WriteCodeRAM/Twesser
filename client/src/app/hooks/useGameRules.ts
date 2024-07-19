@@ -20,7 +20,6 @@ export const useGameRules = () => {
     };
 
     const handleGameStarting = () => {
-      console.log("in game starting");
       setError("Game starting...");
     };
 
