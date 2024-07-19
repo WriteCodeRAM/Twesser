@@ -15,22 +15,11 @@ function Button({
   type = "button",
   onClick,
 }: ButtonProps) {
-  const borderColorClass = () => {
-    switch (borderColor) {
-      case "vibrant-teal":
-        return "border-vibrant-teal";
-      case "soft-orange":
-        return "border-soft-orange";
-      default:
-        return "";
-    }
-  };
-
   return (
     <button
       onClick={onClick}
       type={type}
-      className={`border-2 ${bgColor} ${borderColorClass()} rounded-lg p-4 font-madimi text-white transition-opacity duration-100 hover:opacity-85 hover:text-dark-gray`}
+      className={`border-2 ${bgColor} ${borderColor} rounded-lg p-4 font-madimi text-white transition-opacity duration-100 hover:text-dark-gray hover:opacity-85`}
     >
       {text}
     </button>
