@@ -30,12 +30,12 @@ const RoomsForm = () => {
   // Conditional rendering based on whether the user is in the room
   if (!isInRoom && !inRoom) {
     return (
-      <div className="bg-black p-16 rounded-lg relative">
-        <form className="flex justify-center flex-col align-middle gap-4">
+      <div className="relative rounded-lg bg-black p-16">
+        <form className="flex flex-col justify-center gap-4 align-middle">
           {createError || joinError ? (
             <ErrorPage message={joinError || createError} />
           ) : null}
-          <h1 className="text-center text-white font-roboto font-bold text-2xl">
+          <h1 className="text-center font-roboto text-2xl font-bold text-white">
             Username
           </h1>
           <input
@@ -44,11 +44,11 @@ const RoomsForm = () => {
             value={username}
             type="text"
             placeholder="Enter username"
-            className="p-4 border border-rounded rounded-lg text-center"
+            className="border-rounded rounded-lg border p-4 text-center"
           />
           <div className="flex flex-col">
             <div className="flex flex-col">
-              <h1 className="text-center text-white font-roboto font-bold text-2xl">
+              <h1 className="text-center font-roboto text-2xl font-bold text-white">
                 Join Room
               </h1>
               <input
@@ -56,27 +56,27 @@ const RoomsForm = () => {
                 value={room}
                 type="text"
                 placeholder="room code"
-                className="p-4 border border-rounded rounded-lg text-center mb-2"
+                className="border-rounded mb-2 rounded-lg border p-4 text-center"
               />
               <Button
                 onClick={handleJoinRoom}
-                borderColor="soft-orange"
+                borderColor="border-soft-orange"
                 text="Join"
                 bgColor="bg-vibrant-teal"
                 type="button"
               />
             </div>
-            <h1 className="text-soft-orange text-2xl font-bold text-center p-4">
+            <h1 className="p-4 text-center text-2xl font-bold text-soft-orange">
               OR
             </h1>
             <div className="text-center">
-              <h1 className="text-center text-white font-roboto font-bold text-2xl">
+              <h1 className="text-center font-roboto text-2xl font-bold text-white">
                 Create Room
               </h1>
               <Button
                 onClick={handleCreateRoom}
                 bgColor="bg-soft-orange"
-                borderColor="vibrant-teal"
+                borderColor="border-vibrant-teal"
                 text="Create Room"
                 type="button"
               />
