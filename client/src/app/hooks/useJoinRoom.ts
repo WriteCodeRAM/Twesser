@@ -27,9 +27,18 @@ export const useJoinRoom = () => {
       }, 1000);
     };
 
+    const roomInGame = () => {
+      setError("Room already in game.");
+      setInRoom(false);
+      setTimeout(() => {
+        setError("");
+      }, 1500);
+    };
+
     socket.on("room_joined", roomJoined);
     socket.on("invalid_room_code", invalidRoomCode);
     socket.on("room_full", roomFull);
+    socket.on("game_has_started", roomInGame);
 
     return () => {
       socket.off("room_joined", roomJoined);

@@ -5,6 +5,7 @@ module.exports = (io, socket, rooms) => {
     const newRoomCode = generateUniqueRoomCode();
     rooms[newRoomCode] = {
       members: [{ id: socket.id, name: username, host: true, score: 0 }],
+      gameStarted: false,
     };
     socket.join(newRoomCode);
     socket.emit("room_created", newRoomCode);
@@ -14,9 +15,12 @@ module.exports = (io, socket, rooms) => {
   // round1 = [{id: socket.id, answer: A}, {id: socket.id, answer: A}]
   // if the answer is correct push to rounds array
   // give points based on pos
-  // so persons points = len(members)
   socket.on("join_room", ({ room, username }) => {
-    if (rooms[room] && rooms[room].members.length < 6) {
+    if (
+      rooms[room] &&
+      rooms[room].members.length < 6 &&
+      !rooms[room].gameStarted
+    ) {
       rooms[room].members.push({
         id: socket.id,
         name: username,
@@ -29,6 +33,8 @@ module.exports = (io, socket, rooms) => {
       io.to(room).emit("update_room", rooms[room].members);
     } else if (!rooms[room]) {
       socket.emit("invalid_room_code");
+    } else if (rooms[room].gameStarted) {
+      socket.emit("game_has_started");
     } else {
       socket.emit("room_full");
     }

@@ -9,6 +9,7 @@ module.exports = (io, socket, rooms) => {
       console.log("game started");
       // emit listener to room
       io.to(room).emit("game_started");
+      rooms[room].gameStarted = true;
     } else {
       console.log(`Game requires at least 2 people to play.`);
       socket.emit("player_count_warning");
