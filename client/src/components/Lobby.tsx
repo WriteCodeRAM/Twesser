@@ -4,6 +4,7 @@ import { useGetMembers } from "@/app/hooks/useGetMembers";
 import { useGetQuestions } from "@/app/hooks/useGetQuestions";
 import { useSoundEffects } from "@/app/hooks/useSoundEffects";
 import { useGameRules } from "@/app/hooks/useGameRules";
+import { useState } from "react";
 
 interface LobbyProps {
   room: string;
@@ -15,9 +16,17 @@ const Lobby = ({ room }: LobbyProps) => {
   const { gameStarted, roundStarted, roundOver, intermission } =
     useSoundEffects(room);
   const { error } = useGameRules();
+  const [copied, setCopied] = useState(false);
 
   if (!room) {
     return <p>Loading room details...</p>;
+  }
+
+  function handleCopy() {
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 1000);
   }
 
   return (
@@ -28,7 +37,13 @@ const Lobby = ({ room }: LobbyProps) => {
           navigator.clipboard.writeText(room);
         }}
       >
-        <p>Code: {room}</p>
+        {copied ? (
+          <p className="font-madimi text-muted-green">code copied</p>
+        ) : (
+          <p onClick={handleCopy} className="font-madimi font-bold">
+            code: {room}
+          </p>
+        )}
       </div>
       <LobbyScreen
         error={error}
