@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { socket } from "../socket";
+import { count } from "console";
 
 export const useSoundEffects = (room: string) => {
   const [gameStarted, setGameStarted] = useState(false);
@@ -47,7 +48,14 @@ export const useSoundEffects = (room: string) => {
         roundMusic.current.play();
       }
       setTimeout(() => {
+        if (countdown.current) countdown.current.play();
+      }, 10000);
+      setTimeout(() => {
         if (roundMusic.current) roundMusic.current.pause();
+        if (countdown.current) {
+          countdown.current.pause();
+          countdown.current.currentTime = 0;
+        }
         if (endRound.current) {
           endRound.current.play();
           endRound.current.volume = 0.05;

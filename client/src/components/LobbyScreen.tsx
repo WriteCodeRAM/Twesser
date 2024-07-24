@@ -2,6 +2,7 @@ import React from "react";
 import AnswerChoices from "./AnswerChoices";
 import Image from "next/image";
 import Leaderboard from "./Leaderboard";
+import Countdown from "./Countdown";
 
 type Question = {
   id: number;
@@ -40,6 +41,7 @@ const LobbyScreen = ({
 
   const renderRoundStarted = (data: Question) => (
     <div className="image-container">
+      <Countdown time={15}></Countdown>
       <Image
         src={data.blurredURL}
         width={800}
@@ -64,7 +66,13 @@ const LobbyScreen = ({
     </div>
   );
 
-  const renderIntermission = () => <Leaderboard />;
+  const renderIntermission = () => (
+    <div className="flex gap-2">
+      <Leaderboard />
+      <p className="font-madimi font-bold text-soft-orange">Next round in:</p>
+      <Countdown time={10}></Countdown>
+    </div>
+  );
 
   return (
     <div className="size-full">
