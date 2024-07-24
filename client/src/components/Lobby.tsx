@@ -31,20 +31,22 @@ const Lobby = ({ room }: LobbyProps) => {
 
   return (
     <div className="flex flex-col justify-center align-middle">
-      <div
-        className="text-center hover:cursor-pointer hover:text-white"
-        onClick={() => {
-          navigator.clipboard.writeText(room);
-        }}
-      >
-        {copied ? (
-          <p className="font-madimi text-muted-green">code copied</p>
-        ) : (
-          <p onClick={handleCopy} className="font-madimi font-bold">
-            code: {room}
-          </p>
-        )}
-      </div>
+      {!gameStarted && (
+        <div
+          className="text-center hover:cursor-pointer hover:text-white"
+          onClick={() => {
+            navigator.clipboard.writeText(room);
+          }}
+        >
+          {copied ? (
+            <p className="font-madimi text-muted-green">code copied</p>
+          ) : (
+            <p onClick={handleCopy} className="font-madimi font-bold">
+              code: {room}
+            </p>
+          )}
+        </div>
+      )}
       <LobbyScreen
         error={error}
         data={questions[index] || null}
