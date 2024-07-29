@@ -22,12 +22,16 @@ export const useCreateRoom = () => {
   }, []);
 
   const createRoom = (username: string) => {
-    // console.log(username);
-    if (username.trim()) {
+    if (username.trim() && username.length < 16) {
       const newName = username.trim();
       // newName doesnt work for some reason ?
       // console.log(newName);
       socket.emit("create_room", { username });
+    } else if (username.length > 15) {
+      setError("Username too long. (15 chars max)");
+      setTimeout(() => {
+        setError("");
+      }, 1500);
     } else {
       setError("Enter a username first.");
       setTimeout(() => {

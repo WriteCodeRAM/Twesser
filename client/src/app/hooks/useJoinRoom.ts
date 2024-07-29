@@ -48,8 +48,13 @@ export const useJoinRoom = () => {
   }, []);
 
   const joinRoom = (username: string, room: string) => {
-    if (username && room) {
+    if (username && room && username.length < 16) {
       socket.emit("join_room", { username, room });
+    } else if (username.length > 15) {
+      setError("Username too long. (15 chars max)");
+      setTimeout(() => {
+        setError("");
+      }, 1500);
     } else {
       setError("Username and room code are required.");
       setTimeout(() => {
