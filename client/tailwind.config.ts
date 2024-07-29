@@ -17,6 +17,9 @@ const config: Config = {
         "muted-blue": "#64b5f6",
         "muted-green": "#81c784",
         "muted-purple": "#b39ddb",
+        gold: "#FFD700",
+        platinum: "#F7E7CE",
+        bronze: "#CD7F32",
       },
     },
     fontFamily: {
