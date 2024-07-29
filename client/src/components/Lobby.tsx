@@ -54,6 +54,7 @@ const Lobby = ({ room }: LobbyProps) => {
         roundStarted={roundStarted}
         roundOver={roundOver}
         intermission={intermission}
+        room={room}
       />
       {!gameStarted && <LobbyMembers members={members} room={room} />}
     </div>
