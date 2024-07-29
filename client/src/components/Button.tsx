@@ -1,12 +1,5 @@
 import React from "react";
-
-interface ButtonProps {
-  text: string;
-  borderColor: string;
-  bgColor: string;
-  onClick?: any;
-  type: string;
-}
+import { ButtonProps } from "@/types";
 
 function Button({
   text,
