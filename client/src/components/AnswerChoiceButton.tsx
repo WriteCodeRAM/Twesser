@@ -1,16 +1,21 @@
-interface AnswerChoicesButtonProps {
-  name: string;
-  onClick: () => void;
-  color: string;
-}
+import { AnswerChoicesButtonProps } from "@/types";
 
-function AnswerChoicesButton(props: AnswerChoicesButtonProps) {
+// take disable prop use that to disable buttons onClick
+function AnswerChoicesButton({
+  name,
+  onClick,
+  color,
+  disabled,
+}: AnswerChoicesButtonProps) {
   return (
     <button
-      className={`rounded border-2 p-8 font-madimi transition-opacity duration-100 hover:text-light-blue hover:opacity-90 ${props.color}`}
-      onClick={props.onClick}
+      className={`rounded border-2 p-8 font-madimi transition-opacity duration-100 hover:text-light-blue hover:opacity-90 ${color} ${
+        disabled ? "cursor-not-allowed opacity-50" : ""
+      }`}
+      onClick={onClick}
+      disabled={disabled}
     >
-      {props.name}
+      {name}
     </button>
   );
 }
