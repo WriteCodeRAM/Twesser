@@ -1,40 +1,28 @@
 import { socket } from "@/app/socket";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { LobbyMembersProps } from "@/types";
 
-interface LobbyMemberFields {
-  id: string;
-  name: string;
-}
-
-interface LobbyMembersProps {
-  members: LobbyMemberFields[];
-  room: string;
-}
 //maybe emit event when host hits start game
 // event makes lobby sfx  and screen says game starting in 5,4,3...
-const LobbyMembers = ({ members, room }) => {
+const LobbyMembers = ({ members, room }: LobbyMembersProps) => {
   const [gameStarted, setGameStarted] = useState(false);
-
-  useEffect(() => {
-    console.log(`Room in LobbyMembers at effect start: ${room}`);
-  }, [room]);
 
   const handleStartGame = () => {
     socket.emit("start_game", { room });
   };
 
   return (
-    <div className="flex flex-wrap gap-4 justify-center mt-4">
+    <div className="mt-4 flex flex-wrap justify-center gap-4">
       {members.map((member, index) => (
         <div
-          className="text-white font-madimi text-center bg-black p-4 rounded w-48"
+          className="w-48 rounded bg-black p-4 text-center font-madimi text-white"
           key={index}
         >
           {member.name}
           {member.host && !gameStarted ? (
             <button
               onClick={handleStartGame}
-              className="ml-2 bg-white text-black rounded"
+              className="ml-2 rounded bg-white text-black"
             >
               Start Game
             </button>
