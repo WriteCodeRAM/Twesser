@@ -9,6 +9,14 @@ export interface LobbyMembersProps {
   members: LobbyMemberFields[];
 }
 
+export interface ButtonProps {
+  text: string;
+  borderColor: string;
+  bgColor: string;
+  onClick?: any;
+  type: string;
+}
+
 export interface Question {
   id: number;
   answerChoices: string[];
