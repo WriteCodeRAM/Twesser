@@ -1,25 +1,11 @@
 import React from "react";
 import AnswerChoices from "./AnswerChoices";
 import Image from "next/image";
+import { Question } from "@/types";
+import { LobbyScreenProps } from "@/types";
 import Leaderboard from "./Leaderboard";
 import Countdown from "./Countdown";
-
-type Question = {
-  id: number;
-  answerChoices: string[];
-  blurredURL: string;
-  unblurredURL: string;
-  answer: string;
-};
-
-interface LobbyScreenProps {
-  error: string;
-  data: Question | null;
-  gameStarted: boolean;
-  roundStarted: boolean;
-  roundOver: boolean;
-  intermission: boolean;
-}
+import { useGetScores } from "@/app/hooks/useGetScores";
 
 const LobbyScreen = ({
   error,
@@ -28,7 +14,9 @@ const LobbyScreen = ({
   roundStarted,
   roundOver,
   intermission,
+  room,
 }: LobbyScreenProps) => {
+  const scores = useGetScores();
   const renderWaiting = () => (
     <div className="rounded-lg bg-white p-6 text-center shadow-lg">
       {error ? (
@@ -49,12 +37,16 @@ const LobbyScreen = ({
         alt=""
         priority={true}
       />
-      <AnswerChoices choices={data.answerChoices} />
+      <AnswerChoices
+        room={room}
+        answer={data.answer}
+        choices={data.answerChoices}
+      />
     </div>
   );
 
   const renderRoundOver = (data: Question) => (
-    <div className="image-container">
+    <div className="mb-2">
       <Image
         src={data.unblurredURL}
         width={800}
@@ -67,10 +59,11 @@ const LobbyScreen = ({
   );
 
   const renderIntermission = () => (
-    <div className="flex gap-2">
-      <Leaderboard />
-      <p className="font-madimi font-bold text-soft-orange">Next round in:</p>
-      <Countdown time={10}></Countdown>
+    <div className="flex flex-col gap-2">
+      <div className="">
+        <Countdown time={10}></Countdown>
+      </div>
+      <Leaderboard members={scores} />
     </div>
   );
 
