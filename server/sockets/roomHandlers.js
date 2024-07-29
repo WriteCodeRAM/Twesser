@@ -6,15 +6,13 @@ module.exports = (io, socket, rooms) => {
     rooms[newRoomCode] = {
       members: [{ id: socket.id, name: username, host: true, score: 0 }],
       gameStarted: false,
+      placement: [],
     };
     socket.join(newRoomCode);
     socket.emit("room_created", newRoomCode);
     io.to(newRoomCode).emit("update_room", rooms[newRoomCode].members);
   });
 
-  // round1 = [{id: socket.id, answer: A}, {id: socket.id, answer: A}]
-  // if the answer is correct push to rounds array
-  // give points based on pos
   socket.on("join_room", ({ room, username }) => {
     if (
       rooms[room] &&
