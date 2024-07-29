@@ -18,7 +18,10 @@ const Countdown = ({ time }: CountdownProps) => {
 
   return (
     <p className="text-center font-madimi font-bold text-soft-orange">
-      {timer}
+      Next round in:{" "}
+      <span className="text-center font-madimi font-bold text-soft-orange">
+        {timer}
+      </span>
     </p>
   );
 };
