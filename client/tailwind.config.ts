@@ -10,6 +10,7 @@ const config: Config = {
     extend: {
       colors: {
         "light-blue": "#f0f4f8",
+        "pastel-blue": "#c7d2de",
         "vibrant-teal": "#32deaa",
         "dark-gray": "#333333",
         "soft-orange": "#ff6b6b",
@@ -17,6 +18,7 @@ const config: Config = {
         "muted-blue": "#64b5f6",
         "muted-green": "#81c784",
         "muted-purple": "#b39ddb",
+
         gold: "#FFD700",
         platinum: "#F7E7CE",
         bronze: "#CD7F32",
