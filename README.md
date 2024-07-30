@@ -1,3 +1,30 @@
+# Twesser
+
+
+
+**Twesser is a multiplayer game where up to 6 players can compete against each other to see who can guess the tweeter behind a blurred tweet the fastest.**
+
+
+The following features are still being worked on:
+
+- [ ] Adding multiplier to points based on timing of submission
+- [ ] Play again feature 
+- [ ] Creating a history for a room to filter out repeated tweets for a particular room
+- [ ] Mute game music button
+- [ ] Hosting the database
+- [ ] Getting the domain
+      
+
+## Gif Walkthrough
+
+Here's a demo of a single round of Twesser:
+
+<img src='https://github.com/WriteCodeRAM/Twesser/blob/main/TwesserDemov1.gif' />
+
+## When can I play? 
+
+Twesser will be pushed to production on 8/6, currently working on implementing the features stated above and minor bug fixes.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
