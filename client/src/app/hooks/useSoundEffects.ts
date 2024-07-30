@@ -49,11 +49,11 @@ export const useSoundEffects = (room: string) => {
         roundMusic.current.play();
       }
 
-      // plays countdown sound 10 seconds in (last 5 seconds) of a round
+      // plays countdown sound 15 seconds in (last 5 seconds) of a round
       setTimeout(() => {
         if (countdown.current) countdown.current.play();
-      }, 10000);
-      // runs after 15 seconds (round length)
+      }, 15000);
+      // runs after 20 seconds (round length)
       setTimeout(() => {
         if (roundMusic.current) roundMusic.current.pause();
         if (countdown.current) {
@@ -71,7 +71,7 @@ export const useSoundEffects = (room: string) => {
           showLeaderboard();
           socket.emit("next_round", room);
         }, 5000);
-      }, 15000);
+      }, 20000);
     };
 
     const showLeaderboard = () => {

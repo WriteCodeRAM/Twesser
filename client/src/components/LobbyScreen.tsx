@@ -28,9 +28,10 @@ const LobbyScreen = ({
   );
 
   const renderRoundStarted = (data: Question) => (
-    <div className="image-container">
-      <Countdown time={15}></Countdown>
+    <div className="">
+      <Countdown time={20}></Countdown>
       <Image
+        className="mb-2 rounded border-2 border-muted-blue"
         src={data.blurredURL}
         width={800}
         height={350}
@@ -46,15 +47,18 @@ const LobbyScreen = ({
   );
 
   const renderRoundOver = (data: Question) => (
-    <div className="mb-2">
+    <div className="">
       <Image
+        className="mb-2 rounded border-2 border-muted-green"
         src={data.unblurredURL}
         width={800}
         height={350}
         alt=""
         priority={true}
       />
-      <h1 className="text-center text-xl font-semibold">{data.answer}</h1>
+      <h1 className="text-center font-madimi text-xl font-semibold">
+        {data.answer}
+      </h1>
     </div>
   );
 
