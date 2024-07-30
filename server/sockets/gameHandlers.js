@@ -31,7 +31,6 @@ module.exports = (io, socket, rooms) => {
       const userIndex = rooms[room].members.findIndex(
         (member) => member.id === socket.id
       );
-      console.log(userIndex);
       if (userIndex !== -1) {
         if (isCorrect) {
           rooms[room].members[userIndex].score +=
@@ -50,11 +49,9 @@ module.exports = (io, socket, rooms) => {
   });
 
   socket.on("end_round", (room) => {
-    console.log(rooms[room].placement);
-    io.to(room).emit(
-      "updated_scores",
-      rooms[room].members.sort((a, b) => a.score > b.score)
-    );
+    const sortedMembers = rooms[room].members.sort((a, b) => b.score - a.score);
+
+    io.to(room).emit("updated_scores", sortedMembers);
     rooms[room].placement = [];
   });
 
