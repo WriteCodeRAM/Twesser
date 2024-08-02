@@ -1,12 +1,6 @@
+const { point_system, getMultiplier } = require("../utils/points");
+
 module.exports = (io, socket, rooms) => {
-  const point_system = {
-    0: 100,
-    1: 90,
-    2: 80,
-    3: 70,
-    4: 60,
-    5: 50,
-  };
   socket.on("start_game", ({ room }) => {
     // find host
     const host = rooms[room].members.filter((member) => member.host === true);
@@ -24,17 +18,19 @@ module.exports = (io, socket, rooms) => {
     }
   });
 
-  socket.on("submit_answer", ({ room, choice, answer }) => {
+  socket.on("submit_answer", ({ room, choice, answer, timer }) => {
     if (rooms[room]) {
       const isCorrect = choice === answer;
-
+      console.log(timer);
       const userIndex = rooms[room].members.findIndex(
         (member) => member.id === socket.id
       );
       if (userIndex !== -1) {
         if (isCorrect) {
+          const multiplier = getMultiplier(timer);
+
           rooms[room].members[userIndex].score +=
-            point_system[rooms[room].placement.length];
+            point_system[rooms[room].placement.length] * multiplier;
           rooms[room].placement.push([
             rooms[room].members[userIndex].name,
             rooms[room].members[userIndex].score,
