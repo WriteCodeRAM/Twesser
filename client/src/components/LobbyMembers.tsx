@@ -19,7 +19,6 @@ const LobbyMembers = ({ members, room }: LobbyMembersProps) => {
           key={index}
         >
           {member.name}
-
           {member.host && !gameStarted ? (
             <button
               onClick={handleStartGame}
