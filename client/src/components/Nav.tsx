@@ -13,14 +13,14 @@ const Nav = () => {
     <nav className="flex w-full items-center justify-between p-4">
       <div className="text-pastel-blue">.</div>
       <Link href={"/"}>
-        <h1 className="py-4 font-madimi text-3xl font-bold text-dark-gray">
+        <h1 className="ml-6 py-4 font-madimi text-3xl font-bold text-dark-gray">
           Twesser
         </h1>
       </Link>
 
       <button
         onClick={openModal}
-        className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-soft-orange text-xl font-bold text-dark-gray transition-colors hover:text-gray-600"
+        className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-soft-orange text-xl font-bold text-dark-gray transition-colors hover:text-muted-red"
       >
         ?
       </button>
