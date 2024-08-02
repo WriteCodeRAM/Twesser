@@ -47,3 +47,7 @@ export interface AnswerChoicesProps {
   answer: string;
   room: string;
 }
+
+export interface CountdownProps {
+  time: number;
+}
