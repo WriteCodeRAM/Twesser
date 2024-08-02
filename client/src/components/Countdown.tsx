@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext, ReactNode } from "react";
+import { CountdownProps } from "@/types";
 
-interface CountdownProps {
-  time: number;
+export const CountdownContext = createContext<number | undefined>(undefined);
+
+interface ExtendedCountdownProps extends CountdownProps {
+  children: ReactNode;
 }
 
-const Countdown = ({ time }: CountdownProps) => {
+const Countdown = ({ time, children }: ExtendedCountdownProps) => {
   const [timer, setTimer] = useState(time);
 
   useEffect(() => {
@@ -17,12 +20,17 @@ const Countdown = ({ time }: CountdownProps) => {
   }, [timer]);
 
   return (
-    <p className="text-center font-madimi font-bold text-soft-orange">
-      Next round in:{" "}
-      <span className="text-center font-madimi font-bold text-soft-orange">
-        {timer}
-      </span>
-    </p>
+    <CountdownContext.Provider value={timer}>
+      <div className="w-full">
+        <p className="mb-4 text-center font-madimi font-bold text-soft-orange">
+          Next round in:{" "}
+          <span className="text-center font-madimi font-bold text-soft-orange">
+            {timer}
+          </span>
+        </p>
+        {children}
+      </div>
+    </CountdownContext.Provider>
   );
 };
 

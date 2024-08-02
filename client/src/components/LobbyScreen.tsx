@@ -28,21 +28,24 @@ const LobbyScreen = ({
   );
 
   const renderRoundStarted = (data: Question) => (
-    <div className="">
-      <Countdown time={20}></Countdown>
-      <Image
-        className="mb-2 rounded border-2 border-muted-blue"
-        src={data.blurredURL}
-        width={800}
-        height={350}
-        alt=""
-        priority={true}
-      />
-      <AnswerChoices
-        room={room}
-        answer={data.answer}
-        choices={data.answerChoices}
-      />
+    <div className="w-full">
+      <Countdown time={20}>
+        <>
+          <Image
+            className="mb-2 w-full rounded border-2 border-muted-blue"
+            src={data.blurredURL}
+            width={800}
+            height={350}
+            alt="Blurred image"
+            priority={true}
+          />
+          <AnswerChoices
+            room={room}
+            answer={data.answer}
+            choices={data.answerChoices}
+          />
+        </>
+      </Countdown>
     </div>
   );
 
@@ -65,9 +68,10 @@ const LobbyScreen = ({
   const renderIntermission = () => (
     <div className="flex flex-col gap-2">
       <div className="">
-        <Countdown time={10}></Countdown>
+        <Countdown time={10}>
+          <Leaderboard members={scores} />
+        </Countdown>
       </div>
-      <Leaderboard members={scores} />
     </div>
   );
 

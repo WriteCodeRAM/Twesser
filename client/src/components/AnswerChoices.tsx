@@ -1,8 +1,9 @@
 import AnswerChoiceButton from "./AnswerChoiceButton";
 import { socket } from "@/app/socket";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useSoundEffects } from "@/app/hooks/useSoundEffects";
 import { AnswerChoicesProps } from "@/types";
+import { CountdownContext } from "./Countdown";
 
 const colors: string[] = [
   "border-soft-orange bg-vibrant-teal",
@@ -13,6 +14,7 @@ const colors: string[] = [
 const AnswerChoices = ({ choices, answer, room }: AnswerChoicesProps) => {
   const [disabled, setDisabled] = useState(false);
   const { submitSound } = useSoundEffects(room);
+  const timer = useContext(CountdownContext);
 
   useEffect(() => {
     socket.on("play_submit_sound", () => {
@@ -24,15 +26,10 @@ const AnswerChoices = ({ choices, answer, room }: AnswerChoicesProps) => {
     };
   }, [submitSound]);
 
-  // use onClick to set state disabled to true and send users answer to server
-  // need access to socket in here
-  // play sound from here and handle answer choice ???
   function answerSubmission(choice: string) {
-    // console.log(`selected ${choice}`);
     if (submitSound.current) submitSound.current.play();
     setDisabled(true);
-
-    socket.emit("submit_answer", { room, choice, answer });
+    socket.emit("submit_answer", { room, choice, answer, timer });
   }
   return (
     <div className="grid grid-cols-2 grid-rows-2 gap-2">
