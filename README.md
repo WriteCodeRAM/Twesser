@@ -23,7 +23,7 @@ Here's a demo of a single round of Twesser:
 
 ## When can I play? 
 
-Twesser will be pushed to production on 8/6, currently working on implementing the features stated above and minor bug fixes.
+Twesser will be pushed to production on 8/14, currently working on implementing the features stated above and minor bug fixes.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
