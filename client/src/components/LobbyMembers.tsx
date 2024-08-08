@@ -2,8 +2,6 @@ import { socket } from "@/app/socket";
 import { useState } from "react";
 import { LobbyMembersProps } from "@/types";
 
-//maybe emit event when host hits start game
-// event makes lobby sfx  and screen says game starting in 5,4,3...
 const LobbyMembers = ({ members, room }: LobbyMembersProps) => {
   const [gameStarted, setGameStarted] = useState(false);
 
