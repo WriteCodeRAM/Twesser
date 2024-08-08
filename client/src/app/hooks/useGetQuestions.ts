@@ -1,13 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { socket } from "../socket";
-
-type Question = {
-  id: number;
-  answerChoices: string[];
-  blurredURL: string;
-  unblurredURL: string;
-  answer: string;
-};
+import { Question } from "@/types";
 
 export const useGetQuestions = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -15,23 +8,27 @@ export const useGetQuestions = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/questions")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.questions);
-        setQuestions(data.questions);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching questions:", error);
-        setLoading(false);
-      });
+    socket.emit("get_questions");
+
+    socket.on("receive_questions", (receivedQuestions) => {
+      setQuestions(receivedQuestions);
+      setLoading(false);
+    });
+
+    return () => {
+      socket.off("receive_questions");
+    };
   }, []);
 
   useEffect(() => {
-    socket.on("increment_index", () => setIndex((prev) => prev + 1));
+    const handleIncrementIndex = (newIndex: number) => {
+      setIndex(newIndex);
+    };
+
+    socket.on("increment_index", handleIncrementIndex);
+
     return () => {
-      socket.off("increment_index");
+      socket.off("increment_index", handleIncrementIndex);
     };
   }, []);
 
