@@ -15,6 +15,8 @@ const LobbyScreen = ({
   roundOver,
   intermission,
   room,
+  handleTimerUpdate,
+  timer,
 }: LobbyScreenProps) => {
   const scores = useGetScores();
   const renderWaiting = () => (
@@ -29,22 +31,25 @@ const LobbyScreen = ({
 
   const renderRoundStarted = (data: Question) => (
     <div className="w-full">
-      <Countdown time={20}>
-        <>
-          <Image
-            className="mb-2 w-full rounded border-2 border-muted-blue"
-            src={data.blurredURL}
-            width={800}
-            height={350}
-            alt="Blurred image"
-            priority={true}
-          />
-          <AnswerChoices
-            room={room}
-            answer={data.answer}
-            choices={data.answerChoices}
-          />
-        </>
+      <Countdown handleTimerUpdate={handleTimerUpdate} initialTimer={20}>
+        {(currentTimer) => (
+          <>
+            <Image
+              className="mb-2 w-full rounded border-2 border-muted-blue"
+              src={data.blurredURL}
+              width={800}
+              height={350}
+              alt="Blurred image"
+              priority={true}
+            />
+            <AnswerChoices
+              room={room}
+              answer={data.answer}
+              choices={data.answerChoices}
+              timer={currentTimer}
+            />
+          </>
+        )}
       </Countdown>
     </div>
   );
@@ -68,10 +73,17 @@ const LobbyScreen = ({
   const renderIntermission = () => (
     <div className="flex flex-col gap-2">
       <div className="">
-        <Countdown time={10}>
-          <Leaderboard members={scores} />
+        <Countdown handleTimerUpdate={handleTimerUpdate} initialTimer={10}>
+          {() => <Leaderboard members={scores} />}
         </Countdown>
       </div>
+    </div>
+  );
+
+  const renderGameEnded = () => (
+    <div className="rounded-lg bg-white p-6 text-center shadow-lg">
+      <h1 className="text-xl font-semibold">Game Over!</h1>
+      <Leaderboard members={scores} />
     </div>
   );
 
