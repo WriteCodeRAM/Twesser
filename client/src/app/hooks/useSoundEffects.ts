@@ -1,93 +1,86 @@
-import { useState, useEffect, useRef } from "react";
+import { useRef, useEffect, useCallback } from "react";
 import { socket } from "../socket";
 
-export const useSoundEffects = (room: string) => {
-  const [gameStarted, setGameStarted] = useState(false);
-  const [roundStarted, setRoundStarted] = useState(false);
-  const [roundOver, setRoundOver] = useState(false);
-  const [intermission, setIntermission] = useState(false);
-
+export const useSoundEffects = () => {
   const countdown = useRef<HTMLAudioElement | null>(null);
   const roundStart = useRef<HTMLAudioElement | null>(null);
   const roundMusic = useRef<HTMLAudioElement | null>(null);
-  const endRound = useRef<HTMLAudioElement | null>(null);
+  const endRoundMusic = useRef<HTMLAudioElement | null>(null);
   const submitSound = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     countdown.current = new Audio("/audio/countdown.mp3");
     roundStart.current = new Audio("/audio/start_round.ogg");
     roundMusic.current = new Audio("/audio/round_music.wav");
-    endRound.current = new Audio("/audio/end_round.wav");
+    endRoundMusic.current = new Audio("/audio/end_round.wav");
     submitSound.current = new Audio("/audio/submit.wav");
 
-    const handleGameStart = () => {
-      if (countdown.current) {
-        countdown.current.play();
-        countdown.current.volume = 0.05;
-      }
-      setTimeout(() => {
-        if (countdown.current) {
-          countdown.current.pause();
-          countdown.current.currentTime = 0;
-        }
-        if (roundStart.current) {
-          roundStart.current.currentTime = 0;
-          roundStart.current.volume = 0.05;
-          roundStart.current.play();
-        }
-        setIntermission(false);
-        setGameStarted(true);
-        handleRoundMusic();
-      }, 5000);
-    };
+    socket.on("play_submit_sound", () => {
+      playSubmitSound();
+    });
+  }, []);
 
-    const handleRoundMusic = () => {
-      setRoundStarted(true);
-      if (roundMusic.current) {
-        roundMusic.current.currentTime = 0;
-        roundMusic.current.volume = 0.05;
-        roundMusic.current.play();
-      }
+  const playCountdown = useCallback(() => {
+    if (countdown.current) {
+      countdown.current.currentTime = 0;
+      countdown.current.volume = 0.05;
+      countdown.current.play();
+    }
+  }, []);
 
-      // plays countdown sound 15 seconds in (last 5 seconds) of a round
-      setTimeout(() => {
-        if (countdown.current) countdown.current.play();
-      }, 15000);
-      // runs after 20 seconds (round length)
-      setTimeout(() => {
-        if (roundMusic.current) roundMusic.current.pause();
-        if (countdown.current) {
-          countdown.current.pause();
-          countdown.current.currentTime = 0;
-        }
-        if (endRound.current) {
-          endRound.current.play();
-          endRound.current.volume = 0.05;
-          socket.emit("end_round", room);
-        }
-        setRoundOver(true);
-        setRoundStarted(false);
-        setTimeout(() => {
-          showLeaderboard();
-          socket.emit("next_round", room);
-        }, 5000);
-      }, 20000);
-    };
+  const stopCountdown = useCallback(() => {
+    if (countdown.current) {
+      countdown.current.pause();
+      countdown.current.currentTime = 0;
+    }
+  }, []);
 
-    const showLeaderboard = () => {
-      setRoundOver(false);
-      setIntermission(true);
-      setTimeout(() => {
-        handleGameStart();
-      }, 5000);
-    };
+  const playRoundStart = useCallback(() => {
+    if (roundStart.current) {
+      roundStart.current.currentTime = 0;
+      roundStart.current.volume = 0.05;
+      roundStart.current.play();
+    }
+  }, []);
 
-    socket.on("game_started", handleGameStart);
+  const playRoundMusic = useCallback(() => {
+    if (roundMusic.current) {
+      roundMusic.current.currentTime = 0;
+      roundMusic.current.volume = 0.05;
+      roundMusic.current.play();
+    }
+  }, []);
 
-    return () => {
-      socket.off("game_started", handleGameStart);
-    };
-  }, [room]);
+  const stopRoundMusic = useCallback(() => {
+    if (roundMusic.current) {
+      roundMusic.current.pause();
+      roundMusic.current.currentTime = 0;
+    }
+  }, []);
 
-  return { gameStarted, roundStarted, roundOver, intermission, submitSound };
+  const playEndRoundMusic = useCallback(() => {
+    if (endRoundMusic.current) {
+      endRoundMusic.current.currentTime = 0;
+      endRoundMusic.current.volume = 0.05;
+      endRoundMusic.current.play();
+    }
+  }, []);
+
+  const playSubmitSound = useCallback(() => {
+    if (submitSound.current) {
+      submitSound.current.currentTime = 0;
+      submitSound.current.volume = 0.05;
+      submitSound.current.play();
+    }
+  }, []);
+
+  return {
+    playCountdown,
+    stopCountdown,
+    playRoundStart,
+    playRoundMusic,
+    stopRoundMusic,
+    playEndRoundMusic,
+    playSubmitSound,
+  };
 };
