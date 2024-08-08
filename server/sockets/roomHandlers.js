@@ -1,15 +1,28 @@
 const generateUniqueRoomCode = require("../utils/generateCode");
 
 module.exports = (io, socket, rooms) => {
-  socket.on("create_room", ({ username }) => {
+  socket.on("create_room", async ({ username }) => {
     const newRoomCode = generateUniqueRoomCode();
+
+    const response = await fetch("http://localhost:3000/api/questions");
+    const data = await response.json();
+    const questions = data.questions;
+
     rooms[newRoomCode] = {
       members: [{ id: socket.id, name: username, host: true, score: 0 }],
       gameStarted: false,
+      questions: questions,
       placement: [],
+      responses: [],
+      currentIndex: 0,
+      indexIncrementedThisRound: false,
     };
+
     socket.join(newRoomCode);
     socket.emit("room_created", newRoomCode);
+    socket.on("get_questions", () => {
+      socket.emit("receive_questions", questions);
+    });
     io.to(newRoomCode).emit("update_room", rooms[newRoomCode].members);
   });
 
@@ -27,6 +40,9 @@ module.exports = (io, socket, rooms) => {
       });
       socket.join(room);
       socket.emit("room_joined");
+      socket.on("get_questions", () => {
+        socket.emit("receive_questions", rooms[room].questions);
+      });
       //  update all clients in the room with the new list of users
       io.to(room).emit("update_room", rooms[room].members);
     } else if (!rooms[room]) {
