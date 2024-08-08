@@ -1,15 +1,19 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// make sure whatever questions retrieved arent repeats
-//create history for rooms
-// filter by ids
-//findMany() gets all records so maybe do that and then use a loop to populate the new question pool to make sure
 export async function GET() {
+  const totalQuestions = await prisma.questions.count();
+  const take = 10;
+  const skip = Math.max(0, Math.floor(Math.random() * (totalQuestions - take)));
+
   const questions = await prisma.questions.findMany({
-    take: 10,
+    take,
+    skip,
+    orderBy: {
+      id: "asc",
+    },
   });
-  console.log(questions);
+
   return NextResponse.json({
     questions,
   });
