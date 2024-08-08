@@ -1,10 +1,10 @@
+import React, { useState } from "react";
 import LobbyMembers from "./LobbyMembers";
 import LobbyScreen from "./LobbyScreen";
 import { useGetMembers } from "@/app/hooks/useGetMembers";
 import { useGetQuestions } from "@/app/hooks/useGetQuestions";
-import { useSoundEffects } from "@/app/hooks/useSoundEffects";
+import { useGameFlow } from "@/app/hooks/useGameFlow";
 import { useGameRules } from "@/app/hooks/useGameRules";
-import { useState } from "react";
 
 interface LobbyProps {
   room: string;
@@ -13,8 +13,14 @@ interface LobbyProps {
 const Lobby = ({ room }: LobbyProps) => {
   const { members } = useGetMembers(room);
   const { questions, index } = useGetQuestions();
-  const { gameStarted, roundStarted, roundOver, intermission } =
-    useSoundEffects(room);
+  const {
+    gameStarted,
+    roundStarted,
+    roundOver,
+    intermission,
+    handleTimerUpdate,
+    timer,
+  } = useGameFlow(room);
   const { error } = useGameRules();
   const [copied, setCopied] = useState(false);
 
@@ -55,6 +61,8 @@ const Lobby = ({ room }: LobbyProps) => {
         roundOver={roundOver}
         intermission={intermission}
         room={room}
+        handleTimerUpdate={handleTimerUpdate}
+        timer={timer}
       />
       {!gameStarted && <LobbyMembers members={members} room={room} />}
     </div>
