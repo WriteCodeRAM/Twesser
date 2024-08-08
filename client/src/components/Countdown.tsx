@@ -1,36 +1,42 @@
-import React, { useState, useEffect, createContext, ReactNode } from "react";
+import React, { useState, useEffect, ReactNode } from "react";
 import { CountdownProps } from "@/types";
 
-export const CountdownContext = createContext<number | undefined>(undefined);
-
 interface ExtendedCountdownProps extends CountdownProps {
-  children: ReactNode;
+  children: (currentTimer: number) => ReactNode;
+  handleTimerUpdate: (newTimer: number) => void;
+  initialTimer: number;
 }
 
-const Countdown = ({ time, children }: ExtendedCountdownProps) => {
-  const [timer, setTimer] = useState(time);
+const Countdown = ({
+  children,
+  handleTimerUpdate,
+  initialTimer,
+}: ExtendedCountdownProps) => {
+  const [timer, setTimer] = useState(initialTimer);
 
   useEffect(() => {
-    if (timer <= 0) return;
+    if (timer < 0) return;
     const intervalId = setInterval(() => {
-      setTimer((prevTimer) => prevTimer - 1);
+      setTimer((prevTimer) => {
+        const newTimer = prevTimer - 1;
+        handleTimerUpdate(newTimer);
+        return newTimer;
+      });
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [timer]);
+  }, [timer, handleTimerUpdate]);
 
   return (
-    <CountdownContext.Provider value={timer}>
-      <div className="w-full">
-        <p className="mb-4 text-center font-madimi font-bold text-soft-orange">
-          Next round in:{" "}
-          <span className="text-center font-madimi font-bold text-soft-orange">
-            {timer}
-          </span>
-        </p>
-        {children}
-      </div>
-    </CountdownContext.Provider>
+    <div className="w-full">
+      <p className="mb-4 text-center font-madimi font-bold text-soft-orange">
+        Time remaining:{" "}
+        <span className="text-center font-madimi font-bold text-soft-orange">
+          {timer}
+        </span>
+      </p>
+      {children(timer)}
+    </div>
   );
 };
 

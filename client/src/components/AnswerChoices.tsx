@@ -3,7 +3,6 @@ import { socket } from "@/app/socket";
 import { useState, useEffect, useContext } from "react";
 import { useSoundEffects } from "@/app/hooks/useSoundEffects";
 import { AnswerChoicesProps } from "@/types";
-import { CountdownContext } from "./Countdown";
 
 const colors: string[] = [
   "border-soft-orange bg-vibrant-teal",
@@ -11,23 +10,27 @@ const colors: string[] = [
   "border-muted-purple bg-muted-blue",
   "border-muted-blue bg-muted-purple",
 ];
-const AnswerChoices = ({ choices, answer, room }: AnswerChoicesProps) => {
+const AnswerChoices = ({
+  choices,
+  answer,
+  room,
+  timer,
+}: AnswerChoicesProps) => {
   const [disabled, setDisabled] = useState(false);
-  const { submitSound } = useSoundEffects(room);
-  const timer = useContext(CountdownContext);
+  const { playSubmitSound } = useSoundEffects();
 
   useEffect(() => {
     socket.on("play_submit_sound", () => {
-      if (submitSound.current) submitSound.current.play();
+      playSubmitSound();
     });
 
     return () => {
       socket.off("play_submit_sound");
     };
-  }, [submitSound]);
+  }, []);
 
   function answerSubmission(choice: string) {
-    if (submitSound.current) submitSound.current.play();
+    playSubmitSound();
     setDisabled(true);
     socket.emit("submit_answer", { room, choice, answer, timer });
   }

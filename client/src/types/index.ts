@@ -24,15 +24,16 @@ export interface Question {
   unblurredURL: string;
   answer: string;
 }
-
 export interface LobbyScreenProps {
-  error: string;
+  error: string | null;
   data: Question | null;
   gameStarted: boolean;
   roundStarted: boolean;
   roundOver: boolean;
   intermission: boolean;
   room: string;
+  handleTimerUpdate: (newTimer: number) => void;
+  timer: number;
 }
 
 export interface AnswerChoicesButtonProps {
@@ -46,8 +47,7 @@ export interface AnswerChoicesProps {
   choices: string[];
   answer: string;
   room: string;
+  timer: number;
 }
 
-export interface CountdownProps {
-  time: number;
-}
+export interface CountdownProps {}
