@@ -6,7 +6,7 @@ The following features are still being worked on:
 
 - [x] Adding multiplier to points based on timing of submission
 - [ ] Play again feature
-- [ ] Creating a history for a room to filter out repeated tweets for a particular room
+- [ ] Creating a history property to filter out repeated tweets for a particular room
 - [ ] Mute game music button
 - [ ] Hosting the database
 - [ ] Getting the domain
