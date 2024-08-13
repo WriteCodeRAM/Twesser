@@ -5,9 +5,9 @@
 The following features are still being worked on:
 
 - [x] Adding multiplier to points based on timing of submission
+- [x] Adding more tweets to the database
 - [ ] Play again feature
-- [ ] Creating a history property to filter out repeated tweets for a particular room
-- [ ] Mute game music button
+- [ ] Creating a history property to filter out repeated tweets for a room when playing again
 - [ ] Hosting the database
 - [ ] Getting the domain
 
@@ -19,7 +19,7 @@ Here's a demo of a single round of Twesser:
 
 ## When can I play?
 
-Twesser will be pushed to production on 8/14, currently working on implementing the features stated above and minor bug fixes.
+Twesser will be pushed to production on 8/16, currently working on implementing the features stated above and minor bug fixes.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
