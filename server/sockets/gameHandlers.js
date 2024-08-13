@@ -11,8 +11,6 @@ module.exports = (io, socket, rooms) => {
       // emit listener to room
       rooms[room].indexIncrementedThisRound = false;
       io.to(room).emit("game_started");
-
-      rooms[room].gameStarted = true;
     } else {
       console.log(`Game requires at least 2 people to play.`);
       socket.emit("player_count_warning");
@@ -21,7 +19,6 @@ module.exports = (io, socket, rooms) => {
 
   socket.on("submit_answer", ({ room, choice, answer, timer }) => {
     rooms[room].responses.push(socket.id);
-    console.log(timer);
     if (rooms[room]) {
       const isCorrect = choice === answer;
 
@@ -74,12 +71,7 @@ module.exports = (io, socket, rooms) => {
       rooms[room].responses = [];
 
       incrementRoundIndex(room);
-      console.log(rooms[room].currentIndex);
-      if (rooms[room].currentIndex < rooms[room].questions.length - 1) {
-        console.log(
-          `Preparing for next round. Current index: ${rooms[room].currentIndex}`
-        );
-
+      if (rooms[room].currentIndex < 2) {
         setTimeout(() => {
           startNewRound(room);
         }, 15000);
@@ -87,14 +79,6 @@ module.exports = (io, socket, rooms) => {
         console.log("Game ended. All questions answered.");
         io.to(room).emit("game_ended");
       }
-    }
-  });
-
-  socket.on("game_ended", (room) => {
-    if (rooms[room]) {
-      rooms[room].gameStarted = false;
-      io.to(room).emit("game_ended");
-      console.log("game over");
     }
   });
 };
