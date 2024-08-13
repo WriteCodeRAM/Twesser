@@ -13,7 +13,7 @@ export const useGameRules = () => {
     };
 
     const handleHostMustStartGame = () => {
-      setError("Only the host of the room is allowed to start the game.");
+      setError("The host must start the game.");
       setTimeout(() => {
         setError("");
       }, 2000);
@@ -21,6 +21,9 @@ export const useGameRules = () => {
 
     const handleGameStarting = () => {
       setError("Game starting...");
+      setTimeout(() => {
+        setError("");
+      }, 5000);
     };
 
     socket.on("player_count_warning", handlePlayerCountWarning);
