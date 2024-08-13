@@ -6,6 +6,8 @@ import { LobbyScreenProps } from "@/types";
 import Leaderboard from "./Leaderboard";
 import Countdown from "./Countdown";
 import { useGetScores } from "@/app/hooks/useGetScores";
+import Button from "./Button";
+import { socket } from "@/app/socket";
 
 const LobbyScreen = ({
   error,
@@ -17,6 +19,7 @@ const LobbyScreen = ({
   room,
   handleTimerUpdate,
   timer,
+  gameOver,
 }: LobbyScreenProps) => {
   const scores = useGetScores();
   const renderWaiting = () => (
@@ -81,21 +84,32 @@ const LobbyScreen = ({
   );
 
   const renderGameEnded = () => (
-    <div className="rounded-lg bg-white p-6 text-center shadow-lg">
-      <h1 className="text-xl font-semibold">Game Over!</h1>
+    <div className="rounded-lg bg-black p-4 text-center shadow-lg">
+      <h1 className="font-madimi text-xl font-semibold text-light-blue">
+        Game Over!
+      </h1>
+      {error && <p className="font-madimi text-muted-red">{error}</p>}
       <Leaderboard members={scores} />
+      <Button
+        onClick={() => socket.emit("start_game", { room })}
+        bgColor="bg-soft-orange"
+        borderColor="border-vibrant-teal"
+        text="Play Again?"
+        type="button"
+      />
     </div>
   );
 
   return (
     <div className="size-full">
-      {!gameStarted ? (
+      {!gameStarted && !gameOver ? (
         renderWaiting()
       ) : (
         <div className="flex flex-col justify-center gap-4 align-middle">
           {roundStarted && data && renderRoundStarted(data)}
           {roundOver && data && renderRoundOver(data)}
           {intermission && renderIntermission()}
+          {gameOver && renderGameEnded()}
         </div>
       )}
     </div>

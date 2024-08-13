@@ -20,6 +20,7 @@ const Lobby = ({ room }: LobbyProps) => {
     intermission,
     handleTimerUpdate,
     timer,
+    gameOver,
   } = useGameFlow(room);
   const { error } = useGameRules();
   const [copied, setCopied] = useState(false);
@@ -63,6 +64,7 @@ const Lobby = ({ room }: LobbyProps) => {
         room={room}
         handleTimerUpdate={handleTimerUpdate}
         timer={timer}
+        gameOver={gameOver}
       />
       {!gameStarted && <LobbyMembers members={members} room={room} />}
     </div>
