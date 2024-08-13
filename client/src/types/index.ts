@@ -24,6 +24,7 @@ export interface Question {
   unblurredURL: string;
   answer: string;
 }
+
 export interface LobbyScreenProps {
   error: string | null;
   data: Question | null;
@@ -34,6 +35,7 @@ export interface LobbyScreenProps {
   room: string;
   handleTimerUpdate: (newTimer: number) => void;
   timer: number;
+  gameOver: boolean;
 }
 
 export interface AnswerChoicesButtonProps {
