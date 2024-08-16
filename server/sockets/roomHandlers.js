@@ -1,22 +1,30 @@
 const generateUniqueRoomCode = require("../utils/generateCode");
 
-module.exports = (io, socket, rooms) => {
+module.exports = (io, socket, rooms, fetchNewQuestions) => {
   socket.on("create_room", async ({ username }) => {
     const newRoomCode = generateUniqueRoomCode();
-
-    const response = await fetch("http://localhost:3000/api/questions");
-    const data = await response.json();
-    const questions = data.questions;
 
     rooms[newRoomCode] = {
       members: [{ id: socket.id, name: username, host: true, score: 0 }],
       gameStarted: false,
-      questions: questions,
+      questions: [],
       placement: [],
       responses: [],
       currentIndex: 0,
       indexIncrementedThisRound: false,
+      history: [],
     };
+
+    const questions = await fetchNewQuestions(newRoomCode, rooms);
+    rooms[newRoomCode].questions = questions;
+    // only send questions[currentindex] to client
+    // and only send the blurredURL / imgURL link
+    //
+    for (let i = 0; i < questions.length; i++) {
+      rooms[newRoomCode].history.push(questions[i].id);
+    }
+
+    console.log(rooms[newRoomCode].history);
 
     socket.join(newRoomCode);
     socket.emit("room_created", newRoomCode);

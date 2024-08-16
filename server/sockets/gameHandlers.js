@@ -1,16 +1,60 @@
 const { point_system, getMultiplier } = require("../utils/points");
 
-module.exports = (io, socket, rooms) => {
-  socket.on("start_game", ({ room }) => {
+module.exports = (io, socket, rooms, fetchNewQuestions) => {
+  function incrementRoundIndex(room) {
+    if (!rooms[room].indexIncrementedThisRound) {
+      rooms[room].currentIndex++;
+      rooms[room].indexIncrementedThisRound = true;
+    }
+  }
+
+  function resetRoom(room) {
+    rooms[room].currentIndex = 0;
+    rooms[room].indexIncrementedThisRound = false;
+    rooms[room].questions = [];
+    rooms[room].gameEnded = false;
+  }
+
+  function startNewRound(room) {
+    rooms[room].indexIncrementedThisRound = false;
+    io.to(room).emit("increment_index", rooms[room].currentIndex);
+    io.to(room).emit("start_next_round");
+  }
+
+  socket.on("start_game", async ({ room }) => {
     // find host
     const host = rooms[room].members.filter((member) => member.host === true);
     // dont allow regular members to start game
     if (host[0].id !== socket.id) {
       socket.emit("host_must_start_game");
-    } else if (rooms[room] && rooms[room].members.length > 1) {
+    } else if (
+      host[0].id === socket.id &&
+      rooms[room] &&
+      rooms[room].members.length > 1
+    ) {
       // emit listener to room
       rooms[room].indexIncrementedThisRound = false;
-      io.to(room).emit("game_started");
+      // if room questions empty fetch and set it for room
+      // emit receieve_questions to room
+      if (!rooms[room].questions.length) {
+        console.log("game being replayed");
+        for (let i = 0; i < rooms[room].members.length; i++) {
+          rooms[room].members[i].score = 0;
+        }
+
+        const questions = await fetchNewQuestions(room, rooms);
+
+        rooms[room].questions = questions;
+        for (let i = 0; i < questions.length; i++) {
+          rooms[room].history.push(questions[i].id);
+        }
+        console.log(rooms[room].history);
+        io.to(room).emit("receive_questions", questions);
+      }
+
+      if (rooms[room].questions.length) {
+        io.to(room).emit("game_started");
+      }
     } else {
       console.log(`Game requires at least 2 people to play.`);
       socket.emit("player_count_warning");
@@ -48,19 +92,6 @@ module.exports = (io, socket, rooms) => {
     }
   });
 
-  function incrementRoundIndex(room) {
-    if (!rooms[room].indexIncrementedThisRound) {
-      rooms[room].currentIndex++;
-      rooms[room].indexIncrementedThisRound = true;
-    }
-  }
-
-  function startNewRound(room) {
-    rooms[room].indexIncrementedThisRound = false;
-    io.to(room).emit("increment_index", rooms[room].currentIndex);
-    io.to(room).emit("start_next_round");
-  }
-
   socket.on("end_round", (room) => {
     if (rooms[room]) {
       const sortedMembers = rooms[room].members.sort(
@@ -71,13 +102,21 @@ module.exports = (io, socket, rooms) => {
       rooms[room].responses = [];
 
       incrementRoundIndex(room);
-      if (rooms[room].currentIndex < 2) {
+      if (rooms[room].currentIndex < rooms[room].questions.length) {
         setTimeout(() => {
-          startNewRound(room);
+          if (!rooms[room].gameEnded) {
+            console.log(
+              "Starting new round, current index:",
+              rooms[room].currentIndex
+            );
+            startNewRound(room);
+          }
         }, 15000);
       } else {
         console.log("Game ended. All questions answered.");
+        rooms[room].gameEnded = true;
         io.to(room).emit("game_ended");
+        resetRoom(room);
       }
     }
   });
