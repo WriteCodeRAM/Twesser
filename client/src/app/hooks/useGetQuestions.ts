@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { socket } from "../socket";
 import { Question } from "@/types";
 
@@ -11,8 +11,17 @@ export const useGetQuestions = () => {
     socket.emit("get_questions");
 
     socket.on("receive_questions", (receivedQuestions) => {
+      setIndex(0);
       setQuestions(receivedQuestions);
       setLoading(false);
+    });
+
+    socket.on("game_ended", () => {
+      setTimeout(() => {
+        setIndex(0);
+        setQuestions([]);
+        setLoading(true);
+      }, 5000);
     });
 
     return () => {

@@ -70,13 +70,21 @@ export const useGameFlow = (room: string, initialTimer?: number) => {
   }, [playRoundStart, playRoundMusic, round]);
 
   const endGame = useCallback(() => {
-    console.log("game is over");
-    setIntermission(false);
-    setGameStarted(false);
+    // allows renderRoundOver screen to be displayed for 5 seconds
+    //  before renderGameOver screen is shown
     setRoundStarted(false);
-    setRoundOver(false);
-    setRound(1);
-    setGameOver(true);
+    setRoundOver(true);
+    stopRoundMusic();
+    stopCountdown();
+    playEndRoundMusic();
+    setTimeout(() => {
+      setIntermission(false);
+      setGameStarted(false);
+      setRoundStarted(false);
+      setRoundOver(false);
+      setRound(1);
+      setGameOver(true);
+    }, 5000);
   }, []);
 
   const handleTimerUpdate = useCallback(
