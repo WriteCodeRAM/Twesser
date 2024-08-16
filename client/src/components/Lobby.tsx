@@ -66,7 +66,9 @@ const Lobby = ({ room }: LobbyProps) => {
         timer={timer}
         gameOver={gameOver}
       />
-      {!gameStarted && <LobbyMembers members={members} room={room} />}
+      {!gameStarted && !gameOver && (
+        <LobbyMembers members={members} room={room} />
+      )}
     </div>
   );
 };
