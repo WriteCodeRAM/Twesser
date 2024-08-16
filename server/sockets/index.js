@@ -1,6 +1,7 @@
 const { Server } = require("socket.io");
 const roomHandlers = require("./roomHandlers");
 const gameHandlers = require("./gameHandlers");
+const { fetchNewQuestions } = require("../utils/questions");
 
 const rooms = {};
 
@@ -15,8 +16,8 @@ module.exports = (httpServer) => {
   io.on("connection", (socket) => {
     console.log(`User connected: ${socket.id}`);
 
-    roomHandlers(io, socket, rooms);
-    gameHandlers(io, socket, rooms);
+    roomHandlers(io, socket, rooms, fetchNewQuestions);
+    gameHandlers(io, socket, rooms, fetchNewQuestions);
 
     socket.on("disconnect", () => {
       console.log(`User ${socket.id} disconnected `);
@@ -35,5 +36,5 @@ module.exports = (httpServer) => {
     });
   });
 
-  return io;
+  return { io, fetchNewQuestions };
 };
