@@ -7,6 +7,8 @@ export const useSoundEffects = () => {
   const roundMusic = useRef<HTMLAudioElement | null>(null);
   const endRoundMusic = useRef<HTMLAudioElement | null>(null);
   const submitSound = useRef<HTMLAudioElement | null>(null);
+  const joinedSound = useRef<HTMLAudioElement | null>(null);
+  const leftSound = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     countdown.current = new Audio("/audio/countdown.mp3");
@@ -14,6 +16,8 @@ export const useSoundEffects = () => {
     roundMusic.current = new Audio("/audio/round_music.wav");
     endRoundMusic.current = new Audio("/audio/end_round.wav");
     submitSound.current = new Audio("/audio/submit.wav");
+    joinedSound.current = new Audio("/audio/joined_room.wav");
+    leftSound.current = new Audio("/audio/left_room.flac");
 
     socket.on("play_submit_sound", () => {
       playSubmitSound();
@@ -74,6 +78,19 @@ export const useSoundEffects = () => {
     }
   }, []);
 
+  const playJoinedSound = useCallback(() => {
+    if (joinedSound.current) {
+      joinedSound.current.volume = 0.05;
+      joinedSound.current.play();
+    }
+  }, []);
+
+  const playLeftSound = useCallback(() => {
+    if (leftSound.current) {
+      leftSound.current.volume = 0.05;
+      leftSound.current.play();
+    }
+  }, []);
   return {
     playCountdown,
     stopCountdown,
@@ -82,5 +99,7 @@ export const useSoundEffects = () => {
     stopRoundMusic,
     playEndRoundMusic,
     playSubmitSound,
+    playJoinedSound,
+    playLeftSound,
   };
 };
