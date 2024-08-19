@@ -26,13 +26,24 @@ export const useGameRules = () => {
       }, 5000);
     };
 
+    const handleAllQuestionsSeen = () => {
+      setError(`This room has seen and played 
+    through all questions in Twesser thus far. Thanks for playing!`);
+      setTimeout(() => {
+        setError("");
+      }, 5000);
+    };
+
     socket.on("player_count_warning", handlePlayerCountWarning);
     socket.on("host_must_start_game", handleHostMustStartGame);
     socket.on("game_started", handleGameStarting);
+    socket.on("all_questions_seen", handleAllQuestionsSeen);
 
     return () => {
       socket.off("player_count_warning", handlePlayerCountWarning);
       socket.off("host_must_start_game", handleHostMustStartGame);
+      socket.off("game_started", handleGameStarting);
+      socket.off("all_questions_seen", handleAllQuestionsSeen);
     };
   }, []);
 

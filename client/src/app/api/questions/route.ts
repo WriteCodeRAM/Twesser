@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 export async function POST(request: Request) {
   const { usedIds } = await request.json();
 
+  const totalQuestionsInDatabase = await prisma.questions.count();
   const totalQuestions = await prisma.questions.count({
     where: {
       id: {
@@ -30,5 +31,6 @@ export async function POST(request: Request) {
 
   return NextResponse.json({
     questions,
+    totalQuestionsInDatabase,
   });
 }

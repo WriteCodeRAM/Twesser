@@ -7,6 +7,7 @@ async function fetchNewQuestions(room, rooms) {
     body: JSON.stringify({ usedIds: rooms[room].history }),
   });
   const data = await response.json();
+  rooms[room].totalQuestions = data.totalQuestionsInDatabase;
   return data.questions;
 }
 

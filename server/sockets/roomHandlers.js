@@ -13,18 +13,14 @@ module.exports = (io, socket, rooms, fetchNewQuestions) => {
       currentIndex: 0,
       indexIncrementedThisRound: false,
       history: [],
+      totalQuestions: 0,
     };
 
     const questions = await fetchNewQuestions(newRoomCode, rooms);
     rooms[newRoomCode].questions = questions;
-    // only send questions[currentindex] to client
-    // and only send the blurredURL / imgURL link
-    //
     for (let i = 0; i < questions.length; i++) {
       rooms[newRoomCode].history.push(questions[i].id);
     }
-
-    console.log(rooms[newRoomCode].history);
 
     socket.join(newRoomCode);
     socket.emit("room_created", newRoomCode);

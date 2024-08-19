@@ -27,17 +27,19 @@ module.exports = (io, socket, rooms, fetchNewQuestions) => {
     // dont allow regular members to start game
     if (host[0].id !== socket.id) {
       socket.emit("host_must_start_game");
+      // dont allow room to play again once all questions in database have been answered
+    } else if (rooms[room].history.length >= rooms[room].totalQuestions) {
+      io.to(room).emit("all_questions_seen");
     } else if (
       host[0].id === socket.id &&
       rooms[room] &&
       rooms[room].members.length > 1
     ) {
-      // emit listener to room
       rooms[room].indexIncrementedThisRound = false;
       // if room questions empty fetch and set it for room
       // emit receieve_questions to room
+      // valid play again condition
       if (!rooms[room].questions.length) {
-        console.log("game being replayed");
         for (let i = 0; i < rooms[room].members.length; i++) {
           rooms[room].members[i].score = 0;
         }
@@ -48,7 +50,7 @@ module.exports = (io, socket, rooms, fetchNewQuestions) => {
         for (let i = 0; i < questions.length; i++) {
           rooms[room].history.push(questions[i].id);
         }
-        console.log(rooms[room].history);
+
         io.to(room).emit("receive_questions", questions);
       }
 
@@ -105,10 +107,6 @@ module.exports = (io, socket, rooms, fetchNewQuestions) => {
       if (rooms[room].currentIndex < rooms[room].questions.length) {
         setTimeout(() => {
           if (!rooms[room].gameEnded) {
-            console.log(
-              "Starting new round, current index:",
-              rooms[room].currentIndex
-            );
             startNewRound(room);
           }
         }, 15000);
