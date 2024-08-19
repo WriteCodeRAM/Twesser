@@ -38,10 +38,10 @@ const LobbyScreen = ({
         {(currentTimer) => (
           <>
             <Image
-              className="mb-2 w-full rounded border-2 border-muted-blue"
+              className="mb-2 h-[250px] w-[700px] rounded border-4 border-muted-blue"
               src={data.blurredURL}
-              width={800}
-              height={350}
+              width={700}
+              height={250}
               alt="Blurred image"
               priority={true}
             />
@@ -60,11 +60,11 @@ const LobbyScreen = ({
   const renderRoundOver = (data: Question) => (
     <div className="">
       <Image
-        className="mb-2 rounded border-2 border-muted-green"
+        className="mb-2 h-[250px] w-[700px] rounded border-4 border-muted-green"
         src={data.unblurredURL}
-        width={800}
-        height={350}
-        alt=""
+        width={700}
+        height={250}
+        alt="unblurred image"
         priority={true}
       />
       <h1 className="text-center font-madimi text-xl font-semibold">
