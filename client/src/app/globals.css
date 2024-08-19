@@ -14,3 +14,7 @@ body {
   justify-content: center;
   background-color: #c7d2de;
 }
+
+html {
+  padding: 8px;
+}
