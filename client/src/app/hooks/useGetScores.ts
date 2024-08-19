@@ -7,7 +7,6 @@ export const useGetScores = (): LobbyMemberFields[] => {
 
   useEffect(() => {
     const handleUpdatedScores = (newScores: LobbyMemberFields[]) => {
-      console.log("Received new scores:", newScores);
       setScores(newScores);
     };
 
