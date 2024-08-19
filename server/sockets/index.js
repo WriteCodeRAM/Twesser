@@ -21,16 +21,22 @@ module.exports = (httpServer) => {
 
     socket.on("disconnect", () => {
       console.log(`User ${socket.id} disconnected `);
-      // handle disconnect
-      // find the room and remove the member
-      Object.keys(rooms).forEach((room) => {
-        rooms[room].members = rooms[room].members.filter(
-          (member) => member.id !== socket.id
+      Object.keys(rooms).forEach((roomCode) => {
+        const room = rooms[roomCode];
+        const memberIndex = room.members.findIndex(
+          (member) => member.id === socket.id
         );
-        if (rooms[room].members.length === 0) {
-          delete rooms[room];
-        } else {
-          io.to(room).emit("update_room", rooms[room].members);
+        if (memberIndex !== -1) {
+          room.members.splice(memberIndex, 1);
+          if (room.members.length === 0) {
+            delete rooms[roomCode];
+          } else {
+            io.to(roomCode).emit(
+              "member_disconnected",
+              socket.id,
+              room.members
+            );
+          }
         }
       });
     });
