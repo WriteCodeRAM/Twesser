@@ -8,8 +8,8 @@ The following features are still being worked on:
 - [x] Adding more tweets to the database
 - [x] Play again feature
 - [x] Creating a history property to filter out repeated tweets for a room when playing again
-- [ ] Not allowing a room to play again once all questions have been answered
-- [ ] Fixing issue with Image component being resized despite specifying dimensions
+- [x] Not allowing a room to play again once all questions have been answered
+- [x] Fixing issue with Image component being resized despite specifying dimensions
 - [ ] Hosting the database
 - [ ] Getting the domain
 
