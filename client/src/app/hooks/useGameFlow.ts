@@ -18,6 +18,7 @@ export const useGameFlow = (room: string, initialTimer?: number) => {
     playRoundMusic,
     stopRoundMusic,
     playEndRoundMusic,
+    playGameOver,
   } = useSoundEffects();
 
   const gameStateRef = useRef({ gameOver: false, round: 1 });
@@ -83,6 +84,7 @@ export const useGameFlow = (room: string, initialTimer?: number) => {
       setRoundStarted(false);
       setRoundOver(false);
       setRound(1);
+      playGameOver();
       setGameOver(true);
     }, 5000);
   }, []);
