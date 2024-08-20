@@ -18,7 +18,7 @@ The following features are still being worked on:
 
 Here's a demo of a single round of Twesser:
 
-<img src='https://github.com/WriteCodeRAM/Twesser/blob/main/TwesserDemov1.gif' />
+<img src='https://github.com/WriteCodeRAM/Twesser/blob/main/TwesserDemov2.gif' />
 
 ## When can I play?
 
