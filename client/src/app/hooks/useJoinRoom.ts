@@ -35,15 +35,26 @@ export const useJoinRoom = () => {
       }, 1500);
     };
 
+    const handleTakenName = () => {
+      setError("Someone in the room has that name.");
+      setInRoom(false);
+      setTimeout(() => {
+        setError("");
+      }, 2000);
+    };
+
     socket.on("room_joined", roomJoined);
     socket.on("invalid_room_code", invalidRoomCode);
     socket.on("room_full", roomFull);
     socket.on("game_has_started", roomInGame);
+    socket.on("username_taken", handleTakenName);
 
     return () => {
       socket.off("room_joined", roomJoined);
       socket.off("invalid_room_code", invalidRoomCode);
       socket.off("room_full", roomFull);
+      socket.off("game_has_started", roomInGame);
+      socket.off("username_taken", handleTakenName);
     };
   }, []);
 
