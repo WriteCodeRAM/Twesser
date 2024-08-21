@@ -31,6 +31,12 @@ module.exports = (io, socket, rooms, fetchNewQuestions) => {
   });
 
   socket.on("join_room", ({ room, username }) => {
+    for (let i = 0; i < rooms[room].members.length; i++) {
+      if (rooms[room].members[i].name === username) {
+        socket.emit("username_taken");
+        return;
+      }
+    }
     if (
       rooms[room] &&
       rooms[room].members.length < 6 &&

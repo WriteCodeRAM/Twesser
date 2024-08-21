@@ -10,7 +10,7 @@ The following features are still being worked on:
 - [x] Creating a history property to filter out repeated tweets for a room when playing again
 - [x] Not allowing a room to play again once all questions have been answered
 - [x] Fixing issue with Image component being resized despite specifying dimensions
-- [ ] Fixing issues with responsiveness in certain components
+- [ ] Fixing issues with responsiveness in modal component
 - [ ] Hosting the database
 - [ ] Getting the domain
 
@@ -22,7 +22,7 @@ Here's a demo of a single round of Twesser:
 
 ## When can I play?
 
-Twesser will be pushed to production on 8/21, currently working on implementing the features stated above and minor bug fixes.
+Twesser will be pushed to production on 8/23, currently working on implementing the features stated above and minor bug fixes.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

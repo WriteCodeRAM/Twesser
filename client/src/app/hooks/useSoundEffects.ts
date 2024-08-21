@@ -9,6 +9,7 @@ export const useSoundEffects = () => {
   const submitSound = useRef<HTMLAudioElement | null>(null);
   const joinedSound = useRef<HTMLAudioElement | null>(null);
   const leftSound = useRef<HTMLAudioElement | null>(null);
+  const gameOver = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     countdown.current = new Audio("/audio/countdown.mp3");
@@ -18,6 +19,7 @@ export const useSoundEffects = () => {
     submitSound.current = new Audio("/audio/submit.wav");
     joinedSound.current = new Audio("/audio/joined_room.wav");
     leftSound.current = new Audio("/audio/left_room.flac");
+    gameOver.current = new Audio("/audio/game_over.mp3");
 
     socket.on("play_submit_sound", () => {
       playSubmitSound();
@@ -91,6 +93,13 @@ export const useSoundEffects = () => {
       leftSound.current.play();
     }
   }, []);
+
+  const playGameOver = useCallback(() => {
+    if (gameOver.current) {
+      gameOver.current.volume = 0.05;
+      gameOver.current.play();
+    }
+  }, []);
   return {
     playCountdown,
     stopCountdown,
@@ -101,5 +110,6 @@ export const useSoundEffects = () => {
     playSubmitSound,
     playJoinedSound,
     playLeftSound,
+    playGameOver,
   };
 };
