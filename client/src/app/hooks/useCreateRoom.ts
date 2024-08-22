@@ -5,6 +5,7 @@ export const useCreateRoom = () => {
   const [room, setRoom] = useState("");
   const [error, setError] = useState("");
   const [inRoom, setInRoom] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     socket.on("room_created", (newRoomCode) => {
@@ -12,6 +13,7 @@ export const useCreateRoom = () => {
       console.log(`room created with code: ${newRoomCode}`);
       // makes it so the Lobby component is displayed
       setRoom(newRoomCode);
+      setIsLoading(false);
       setInRoom(true);
       setError("");
     });
@@ -23,9 +25,7 @@ export const useCreateRoom = () => {
 
   const createRoom = (username: string) => {
     if (username.trim() && username.length < 16) {
-      const newName = username.trim();
-      // newName doesnt work for some reason ?
-      // console.log(newName);
+      setIsLoading(true);
       socket.emit("create_room", { username });
     } else if (username.length > 15) {
       setError("Username too long. (15 chars max)");
@@ -40,5 +40,5 @@ export const useCreateRoom = () => {
     }
   };
 
-  return { room, createRoom, inRoom, error, setRoom };
+  return { room, createRoom, inRoom, error, setRoom, isLoading };
 };

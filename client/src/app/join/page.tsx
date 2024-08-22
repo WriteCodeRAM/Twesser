@@ -5,6 +5,7 @@ import { useJoinRoom } from "../hooks/useJoinRoom";
 import Button from "@/components/Button";
 import Lobby from "@/components/Lobby";
 import ErrorPage from "@/components/Error";
+import LoadingComponent from "@/components/Loading";
 
 const RoomsForm = () => {
   const [username, setUsername] = useState("");
@@ -14,6 +15,7 @@ const RoomsForm = () => {
     error: createError,
     inRoom,
     setRoom,
+    isLoading,
   } = useCreateRoom();
   const { isInRoom, error: joinError, joinRoom } = useJoinRoom();
 
@@ -69,17 +71,18 @@ const RoomsForm = () => {
             <h1 className="p-4 text-center text-2xl font-bold text-soft-orange">
               OR
             </h1>
-            <div className="text-center">
-              <h1 className="text-center font-roboto text-2xl font-bold text-white">
-                Create Room
-              </h1>
-              <Button
-                onClick={handleCreateRoom}
-                bgColor="bg-soft-orange"
-                borderColor="border-vibrant-teal"
-                text="Create Room"
-                type="button"
-              />
+            <div className="flex flex-col justify-center text-center align-middle">
+              {!isLoading ? (
+                <Button
+                  onClick={handleCreateRoom}
+                  bgColor="bg-soft-orange"
+                  borderColor="border-vibrant-teal"
+                  text="Create Room"
+                  type="button"
+                />
+              ) : (
+                <LoadingComponent />
+              )}
             </div>
           </div>
         </form>
