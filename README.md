@@ -10,8 +10,8 @@ The following features are still being worked on:
 - [x] Creating a history property to filter out repeated tweets for a room when playing again
 - [x] Not allowing a room to play again once all questions have been answered
 - [x] Fixing issue with Image component being resized despite specifying dimensions
-- [ ] Fixing issues with responsiveness in modal component
-- [ ] Hosting the database
+- [x] Fixing issues with responsiveness in modal component
+- [x] Hosting the database
 - [ ] Getting the domain
 
 ## Gif Walkthrough
