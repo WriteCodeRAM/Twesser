@@ -7,6 +7,8 @@ export interface LobbyMemberFields {
 
 export interface LobbyMembersProps {
   members: LobbyMemberFields[];
+  room: string;
+  error: string;
 }
 
 export interface ButtonProps {
