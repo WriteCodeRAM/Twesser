@@ -1,9 +1,20 @@
 import { socket } from "@/app/socket";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LobbyMembersProps } from "@/types";
 
-const LobbyMembers = ({ members, room }: LobbyMembersProps) => {
+const LobbyMembers = ({ members, room, error }: LobbyMembersProps) => {
   const [gameStarted, setGameStarted] = useState(false);
+  const [isDisabled, setDisabled] = useState(false);
+
+  useEffect(() => {
+    console.log("Error in LobbyMembers:", error);
+    if (error === "Game starting...") {
+      setDisabled(true);
+      setTimeout(() => {
+        setDisabled(false);
+      }, 6000);
+    }
+  }, [error]);
 
   const handleStartGame = () => {
     socket.emit("start_game", { room });
@@ -20,7 +31,8 @@ const LobbyMembers = ({ members, room }: LobbyMembersProps) => {
           {member.host && !gameStarted ? (
             <button
               onClick={handleStartGame}
-              className="ml-2 rounded bg-white p-1 text-black"
+              className={`ml-2 rounded bg-white p-1 text-black ${isDisabled ? "cursor-not-allowed opacity-50" : ""}`}
+              disabled={isDisabled}
             >
               Start Game
             </button>

@@ -67,7 +67,7 @@ const Lobby = ({ room }: LobbyProps) => {
         gameOver={gameOver}
       />
       {!gameStarted && !gameOver && (
-        <LobbyMembers members={members} room={room} />
+        <LobbyMembers members={members} room={room} error={error} />
       )}
     </div>
   );
