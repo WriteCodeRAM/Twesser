@@ -1,26 +1,11 @@
 const { point_system, getMultiplier } = require("../utils/points");
+const {
+  incrementRoundIndex,
+  resetRoom,
+  startNewRound,
+} = require("../utils/gameUtils");
 
 module.exports = (io, socket, rooms, fetchNewQuestions) => {
-  function incrementRoundIndex(room) {
-    if (!rooms[room].indexIncrementedThisRound) {
-      rooms[room].currentIndex++;
-      rooms[room].indexIncrementedThisRound = true;
-    }
-  }
-
-  function resetRoom(room) {
-    rooms[room].currentIndex = 0;
-    rooms[room].indexIncrementedThisRound = false;
-    rooms[room].questions = [];
-    rooms[room].gameEnded = false;
-  }
-
-  function startNewRound(room) {
-    rooms[room].indexIncrementedThisRound = false;
-    io.to(room).emit("increment_index", rooms[room].currentIndex);
-    io.to(room).emit("start_next_round");
-  }
-
   socket.on("start_game", async ({ room }) => {
     // find host
     const host = rooms[room].members.filter((member) => member.host === true);
@@ -35,30 +20,34 @@ module.exports = (io, socket, rooms, fetchNewQuestions) => {
       rooms[room] &&
       rooms[room].members.length > 1
     ) {
-      rooms[room].indexIncrementedThisRound = false;
-      // if room questions empty fetch and set it for room
-      // emit receieve_questions to room
-      // valid play again condition
+      // reset room on play again
+      if (rooms[room].gameEnded) {
+        resetRoom(rooms, room);
+      }
+
+      // if room questions empty (after reset room for playing again) fetch questions and set it for room
       if (!rooms[room].questions.length) {
         for (let i = 0; i < rooms[room].members.length; i++) {
           rooms[room].members[i].score = 0;
         }
 
         const questions = await fetchNewQuestions(room, rooms);
-
         rooms[room].questions = questions;
+
+        // add questions to history of room preventing duplicate questions on multiple playthroughs
         for (let i = 0; i < questions.length; i++) {
           rooms[room].history.push(questions[i].id);
         }
-
+        // -> (useGetQuestions)
         io.to(room).emit("receive_questions", questions);
       }
 
+      // -> (useGameFlow)
       if (rooms[room].questions.length) {
         io.to(room).emit("game_started");
       }
     } else {
-      console.log(`Game requires at least 2 people to play.`);
+      // -> (useGameRules) game must have 2 players to start
       socket.emit("player_count_warning");
     }
   });
@@ -95,7 +84,8 @@ module.exports = (io, socket, rooms, fetchNewQuestions) => {
   });
 
   socket.on("end_round", (room) => {
-    if (rooms[room]) {
+    if (rooms[room] && !rooms[room].gameEnded) {
+      incrementRoundIndex(rooms, room);
       const sortedMembers = rooms[room].members.sort(
         (a, b) => b.score - a.score
       );
@@ -103,18 +93,20 @@ module.exports = (io, socket, rooms, fetchNewQuestions) => {
       rooms[room].placement = [];
       rooms[room].responses = [];
 
-      incrementRoundIndex(room);
-      if (rooms[room].currentIndex < rooms[room].questions.length) {
-        setTimeout(() => {
-          if (!rooms[room].gameEnded) {
-            startNewRound(room);
-          }
-        }, 15000);
-      } else {
-        console.log("Game ended. All questions answered.");
-        rooms[room].gameEnded = true;
-        io.to(room).emit("game_ended");
-        resetRoom(room);
+      const host = rooms[room].members.find((member) => member.host);
+      // only allow host to emit game_ended and call startnewround
+      if (socket.id === host.id) {
+        if (rooms[room].currentIndex >= rooms[room].questions.length - 1) {
+          console.log("Game ended. All questions answered.");
+          rooms[room].gameEnded = true;
+          io.to(room).emit("game_ended");
+        } else {
+          setTimeout(() => {
+            if (!rooms[room].gameEnded) {
+              startNewRound(io, rooms, room);
+            }
+          }, 15000);
+        }
       }
     }
   });
