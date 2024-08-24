@@ -8,7 +8,7 @@ export interface LobbyMemberFields {
 export interface LobbyMembersProps {
   members: LobbyMemberFields[];
   room: string;
-  error: string;
+  gameOver: boolean;
 }
 
 export interface ButtonProps {
@@ -17,6 +17,7 @@ export interface ButtonProps {
   bgColor: string;
   onClick?: any;
   type: string;
+  disabled: boolean;
 }
 
 export interface Question {
