@@ -22,7 +22,7 @@ export const useGameFlow = (room: string, initialTimer?: number) => {
   } = useSoundEffects();
 
   const gameStateRef = useRef({ gameOver: false, round: 1 });
-  const TOTAL_ROUNDS = 10;
+  const TOTAL_ROUNDS = 5;
 
   useEffect(() => {
     gameStateRef.current = { gameOver, round };
@@ -58,6 +58,7 @@ export const useGameFlow = (room: string, initialTimer?: number) => {
         setIntermission(false);
         playRoundStart();
         setGameStarted(true);
+        // lobbyScreen condition to display blurred tweet
         setRoundStarted(true);
         playRoundMusic();
       }, 5000);
@@ -65,6 +66,7 @@ export const useGameFlow = (room: string, initialTimer?: number) => {
       stopCountdown();
       setIntermission(false);
       playRoundStart();
+      // lobbyScreen condition to display blurred tweet
       setRoundStarted(true);
       playRoundMusic();
     }
@@ -74,10 +76,12 @@ export const useGameFlow = (room: string, initialTimer?: number) => {
     // allows renderRoundOver screen to be displayed for 5 seconds
     //  before renderGameOver screen is shown
     setRoundStarted(false);
+    // cond to show renderRoundOver
     setRoundOver(true);
     stopRoundMusic();
     stopCountdown();
     playEndRoundMusic();
+    // 5 seconds of renderRoundOver before we renderGameOver
     setTimeout(() => {
       setIntermission(false);
       setGameStarted(false);
@@ -85,12 +89,14 @@ export const useGameFlow = (room: string, initialTimer?: number) => {
       setRoundOver(false);
       setRound(1);
       playGameOver();
+      // cond to show renderGameOver
       setGameOver(true);
     }, 5000);
   }, []);
 
   const handleTimerUpdate = useCallback(
     (newTimer: number) => {
+      if (gameOver) return;
       setTimer(newTimer);
       if (roundStarted) {
         if (newTimer === 5) {

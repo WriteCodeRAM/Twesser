@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     .select("*", { count: "exact", head: true })
     .not("id", "in", `(${usedIds.join(",")})`);
 
-  const take = 10;
+  const take = 5;
   const skip = Math.max(
     0,
     Math.floor(Math.random() * (totalQuestions! - take)),
