@@ -5,12 +5,14 @@ interface ExtendedCountdownProps extends CountdownProps {
   children: (currentTimer: number) => ReactNode;
   handleTimerUpdate: (newTimer: number) => void;
   initialTimer: number;
+  text: string;
 }
 
 const Countdown = ({
   children,
   handleTimerUpdate,
   initialTimer,
+  text,
 }: ExtendedCountdownProps) => {
   const [timer, setTimer] = useState(initialTimer);
 
@@ -30,7 +32,7 @@ const Countdown = ({
   return (
     <div className="w-full">
       <p className="mb-4 text-center font-madimi font-bold text-soft-orange">
-        Time remaining:{" "}
+        {text}{" "}
         <span className="text-center font-madimi font-bold text-soft-orange">
           {timer}
         </span>
