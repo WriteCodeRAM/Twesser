@@ -7,7 +7,6 @@ const LobbyMembers = ({ members, room, error }: LobbyMembersProps) => {
   const [isDisabled, setDisabled] = useState(false);
 
   useEffect(() => {
-    console.log("Error in LobbyMembers:", error);
     if (error === "Game starting...") {
       setDisabled(true);
       setTimeout(() => {
