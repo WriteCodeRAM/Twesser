@@ -2,10 +2,10 @@
 import { useState } from "react";
 import { useCreateRoom } from "../hooks/useCreateRoom";
 import { useJoinRoom } from "../hooks/useJoinRoom";
-import Button from "@/components/Button";
-import Lobby from "@/components/Lobby";
-import ErrorPage from "@/components/Error";
-import LoadingComponent from "@/components/Loading";
+import Button from "../../components/Button";
+import Lobby from "../../components/Lobby";
+import ErrorPage from "../../components/Error";
+import LoadingComponent from "../../components/Loading";
 
 const RoomsForm = () => {
   const [username, setUsername] = useState("");

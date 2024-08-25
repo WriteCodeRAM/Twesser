@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ReactNode } from "react";
-import { CountdownProps } from "@/types";
+import { CountdownProps } from "../../src/types/index";
 
 interface ExtendedCountdownProps extends CountdownProps {
   children: (currentTimer: number) => ReactNode;

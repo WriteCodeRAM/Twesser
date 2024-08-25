@@ -1,8 +1,8 @@
 import AnswerChoiceButton from "./AnswerChoiceButton";
-import { socket } from "@/app/socket";
-import { useState, useEffect, useContext } from "react";
-import { useSoundEffects } from "@/app/hooks/useSoundEffects";
-import { AnswerChoicesProps } from "@/types";
+import { socket } from "../app/socket";
+import { useState, useEffect } from "react";
+import { useSoundEffects } from "../app/hooks/useSoundEffects";
+import { AnswerChoicesProps } from "../../src/types/index";
 
 const colors: string[] = [
   "border-soft-orange bg-vibrant-teal",

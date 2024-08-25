@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import LobbyMembers from "./LobbyMembers";
 import LobbyScreen from "./LobbyScreen";
-import { useGetMembers } from "@/app/hooks/useGetMembers";
-import { useGetQuestions } from "@/app/hooks/useGetQuestions";
-import { useGameFlow } from "@/app/hooks/useGameFlow";
-import { useGameRules } from "@/app/hooks/useGameRules";
+import { useGetMembers } from "../app/hooks/useGetMembers";
+import { useGetQuestions } from "../app/hooks/useGetQuestions";
+import { useGameFlow } from "../app/hooks/useGameFlow";
+import { useGameRules } from "../app/hooks/useGameRules";
 
 interface LobbyProps {
   room: string;

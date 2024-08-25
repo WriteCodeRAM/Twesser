@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { socket } from "../socket";
-import { LobbyMemberFields } from "@/types";
+import { LobbyMemberFields } from "../../types";
 
 export const useGetScores = (): LobbyMemberFields[] => {
   const [scores, setScores] = useState<LobbyMemberFields[]>([]);

@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import { LobbyMembersProps } from "@/types";
+import { LobbyMembersProps } from "../../src/types/index";
 import Button from "./Button";
-import { socket } from "@/app/socket";
+import { socket } from "../app/socket";
 
 const textColors = ["text-gold", "text-platinum", "text-bronze"];
 const borderColors = ["border-gold", "border-platinum", "border-bronze"];

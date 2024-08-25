@@ -1,4 +1,4 @@
-import { AnswerChoicesButtonProps } from "@/types";
+import { AnswerChoicesButtonProps } from "../../src/types/index";
 
 // take disable prop use that to disable buttons onClick
 function AnswerChoicesButton({

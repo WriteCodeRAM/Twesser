@@ -1,11 +1,10 @@
 import React from "react";
 import AnswerChoices from "./AnswerChoices";
 import Image from "next/image";
-import { Question } from "@/types";
-import { LobbyScreenProps } from "@/types";
+import { Question, LobbyScreenProps } from "../../src/types/index";
 import Leaderboard from "./Leaderboard";
 import Countdown from "./Countdown";
-import { useGetScores } from "@/app/hooks/useGetScores";
+import { useGetScores } from "../app/hooks/useGetScores";
 
 const LobbyScreen = ({
   error,

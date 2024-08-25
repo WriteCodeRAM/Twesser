@@ -1,6 +1,6 @@
-import { socket } from "@/app/socket";
+import { socket } from "../app/socket";
 import { useState, useEffect } from "react";
-import { LobbyMembersProps } from "@/types";
+import { LobbyMembersProps } from "../../src/types/index";
 
 const LobbyMembers = ({ members, room, error }: LobbyMembersProps) => {
   const [gameStarted, setGameStarted] = useState(false);
