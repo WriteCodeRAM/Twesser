@@ -6,8 +6,13 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 const httpServer = createServer(app);
 
-const path = require("path");
-app.use(express.static(path.join(__dirname, "../client/out")));
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/out")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/out/index.html"));
+  });
+}
 
 setupSocket(httpServer);
 
