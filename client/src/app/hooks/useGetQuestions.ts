@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { socket } from "../socket";
-import { Question } from "@/types";
+import { Question } from "../../types";
 
 export const useGetQuestions = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
