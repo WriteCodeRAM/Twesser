@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 export default {
+  output: "export",
   images: {
     remotePatterns: [
       {
@@ -9,5 +10,6 @@ export default {
         pathname: "/f/**",
       },
     ],
+    unoptimized: true,
   },
 };
