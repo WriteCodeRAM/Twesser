@@ -1,7 +1,6 @@
 const express = require("express");
 const { createServer } = require("http");
 const path = require("path");
-const fs = require("fs");
 const setupSocket = require("./sockets");
 
 const PORT = process.env.PORT || 10000;
@@ -29,30 +28,15 @@ console.log(`Node environment: ${process.env.NODE_ENV}`);
 console.log(`Current directory: ${__dirname}`);
 
 if (process.env.NODE_ENV === "production") {
-  const staticPath = path.join(__dirname, "../client/out");
-  console.log(`Checking static path: ${staticPath}`);
+  const staticPath = path.join(__dirname, "../client/.next");
+  console.log(`Serving static files from: ${staticPath}`);
+  app.use(express.static(staticPath));
 
-  if (fs.existsSync(staticPath)) {
-    console.log(`Static path exists, contents:`, fs.readdirSync(staticPath));
-    app.use(express.static(staticPath));
-
-    app.get("*", (req, res) => {
-      const indexPath = path.join(staticPath, "index.html");
-      console.log(`Attempting to serve index.html from: ${indexPath}`);
-
-      if (fs.existsSync(indexPath)) {
-        res.sendFile(indexPath);
-      } else {
-        console.error(`index.html not found at: ${indexPath}`);
-        res.status(404).send("index.html not found");
-      }
-    });
-  } else {
-    console.error(`Static path does not exist: ${staticPath}`);
-    app.use((req, res) => {
-      res.status(500).send("Static files not found. Build may have failed.");
-    });
-  }
+  app.get("*", (req, res) => {
+    const indexPath = path.join(__dirname, "../client/.next/index.html");
+    console.log(`Serving index.html for: ${req.url}`);
+    res.sendFile(indexPath);
+  });
 } else {
   console.log("Running in development mode");
   app.get("/", (req, res) => {
@@ -71,20 +55,4 @@ httpServer.listen(PORT, () => {
         : `http://localhost:${PORT}`
     }`
   );
-});
-
-process.on("uncaughtException", (error) => {
-  console.error("Uncaught Exception:", error);
-});
-
-process.on("unhandledRejection", (reason, promise) => {
-  console.error("Unhandled Rejection at:", promise, "reason:", reason);
-});
-
-process.on("SIGTERM", () => {
-  console.log("SIGTERM received. Shutting down gracefully.");
-  httpServer.close(() => {
-    console.log("Server closed.");
-    process.exit(0);
-  });
 });
