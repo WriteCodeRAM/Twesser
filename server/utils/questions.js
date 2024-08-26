@@ -2,7 +2,7 @@ async function fetchNewQuestions(room, rooms) {
   try {
     const apiUrl =
       process.env.NODE_ENV === "production"
-        ? `${process.env.NEXT_PUBLIC_API_URL}/api/questions`
+        ? `https://twesser.onrender.com/api/questions`
         : "http://localhost:3000/api/questions";
 
     const response = await fetch(apiUrl, {

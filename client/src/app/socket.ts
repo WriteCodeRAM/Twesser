@@ -1,4 +1,9 @@
-import * as io from "socket.io-client";
+import io from "socket.io-client";
 
-const URL = "http://localhost:8080";
-export const socket = io.connect(URL);
+const socket = io(
+  process.env.NODE_ENV === "production"
+    ? "https://twesser.onrender.com"
+    : "http://localhost:10000",
+);
+
+export default socket;

@@ -7,6 +7,12 @@ const PORT = process.env.PORT || 10000;
 const app = express();
 const httpServer = createServer(app);
 
+// Add this near the top of your server.js file
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
+console.log("Health check endpoint available at /health");
 console.log(`Node environment: ${process.env.NODE_ENV}`);
 console.log(`Current directory: ${__dirname}`);
 
