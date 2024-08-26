@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { socket } from "../socket";
-import { LobbyMemberFields } from "../../types";
+import { Member } from "../../types";
 
-export const useGetScores = (): LobbyMemberFields[] => {
-  const [scores, setScores] = useState<LobbyMemberFields[]>([]);
+export const useGetScores = (): Member[] => {
+  const [scores, setScores] = useState<Member[]>([]);
 
   useEffect(() => {
-    const handleUpdatedScores = (newScores: LobbyMemberFields[]) => {
+    const handleUpdatedScores = (newScores: Member[]) => {
       setScores(newScores);
     };
 

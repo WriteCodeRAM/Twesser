@@ -1,4 +1,4 @@
-export interface LobbyMemberFields {
+export interface Member {
   id: string;
   name: string;
   host: boolean;
@@ -6,9 +6,9 @@ export interface LobbyMemberFields {
 }
 
 export interface LobbyMembersProps {
-  members: LobbyMemberFields[];
+  members: Member[];
   room: string;
-  gameOver: boolean;
+  gameOver?: boolean;
   error?: string;
 }
 

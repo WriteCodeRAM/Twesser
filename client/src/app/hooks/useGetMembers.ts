@@ -6,6 +6,7 @@ interface Member {
   id: string;
   name: string;
   host: boolean;
+  score: number;
 }
 
 export const useGetMembers = (code: string) => {
