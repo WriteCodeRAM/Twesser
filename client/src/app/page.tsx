@@ -22,7 +22,6 @@ export default function Home() {
           <Link href={"/join"}>
             <Button
               type="button"
-              onClick={""}
               borderColor="border-soft-orange"
               text="Start Playing"
               bgColor="bg-vibrant-teal"

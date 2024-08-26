@@ -17,7 +17,7 @@ const TutorialModal = () => {
         the tweet the quickest!
       </p>
 
-      <h3 className="mb-2 text-center text-lg font-semibold sm:text-xl">
+      <h3 className="mb-2 text-center font-madimi text-lg font-semibold sm:text-xl">
         Point System
       </h3>
 

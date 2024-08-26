@@ -7,8 +7,14 @@ div.swiper {
   margin-right: 0;
 }
 
+:root {
+  --font-roboto: var(--font-roboto);
+  --font-madimi: "Madimi One", var(--font-sora);
+}
+
 body {
   display: flex;
+  font-family: var(--font-roboto);
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -17,4 +23,11 @@ body {
 
 html {
   padding: 8px;
+}
+
+/* Use Madimi One for specific elements */
+h1,
+h2,
+h3 {
+  font-family: var(--font-madimi);
 }
