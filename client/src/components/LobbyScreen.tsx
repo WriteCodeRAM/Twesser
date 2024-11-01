@@ -23,7 +23,10 @@ const LobbyScreen = ({
       {error ? (
         <h1 className="text-xl font-semibold text-muted-red">{error}</h1>
       ) : (
-        <h1 className="text-xl font-semibold">Waiting on host to start game</h1>
+        <h1 className="text-xl font-semibold">
+          Waiting on host to start game{" "}
+          <span className="text-muted-red"> (2 player min)</span>
+        </h1>
       )}
     </div>
   );
