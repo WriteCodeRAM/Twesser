@@ -15,7 +15,6 @@ const roboto = Roboto({
   variable: "--font-roboto",
 });
 
-// Use Sora as a placeholder for Madimi One
 const madimi = Sora({
   subsets: ["latin"],
   variable: "--font-madimi",
