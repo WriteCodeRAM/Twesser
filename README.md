@@ -6,7 +6,7 @@
 
 Check out Twesser in action: [Play Twesser](https://twesser.onrender.com)
 
-**_Note: Initial load times may be longer than usual after periods of inactivity due to free-tier hosting limitations._**
+**_Note: Initial load times can take up to ~70 seconds after periods of inactivity due to free-tier hosting limitations._**
 
 ![Twesser Demo](https://github.com/WriteCodeRAM/Twesser/blob/main/TwesserDemov2.gif)
 
@@ -33,6 +33,7 @@ Check out Twesser in action: [Play Twesser](https://twesser.onrender.com)
 - [x] Setup client and server for production
 - [ ] Implement Google Analytics
 - [ ] Fix LobbyMembers display for certain sockets
+- [ ] anti-cheat mechanisms
 
 ## Ongoing Improvements
 
