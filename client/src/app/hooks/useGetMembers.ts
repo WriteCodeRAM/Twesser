@@ -1,13 +1,7 @@
 import { useState, useEffect } from "react";
 import { socket } from "../socket";
 import { useSoundEffects } from "./useSoundEffects";
-
-interface Member {
-  id: string;
-  name: string;
-  host: boolean;
-  score: number;
-}
+import { Member } from "../../types";
 
 export const useGetMembers = (code: string) => {
   const [members, setMembers] = useState<Member[]>([]);
